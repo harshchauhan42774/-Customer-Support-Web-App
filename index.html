@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SHUBH XEROX & CSC Center - Customer Support</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Noto+Sans+Gujarati:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary: #1B2B6B; --primary-mid: #1E3380; --primary-light: #2545A8;
+            --accent: #1B2B6B; --accent-mid: #1E3380; --accent-light: #E8ECF8;
+            --success: #22C55E; --bg: #F2F4F8; --white: #FFFFFF;
+            --gray-50: #F8F9FC; --gray-100: #ECEEF5; --gray-200: #D8DCF0;
+            --gray-300: #B8C0DC; --gray-500: #6B7599; --gray-700: #2D3561; --gray-900: #1B2B6B;
+            --sidebar-width: 300px;
+            --radius-sm: 8px; --radius-md: 12px; --radius-lg: 18px; --radius-xl: 24px;
+        }
+        body { font-family: 'Outfit','Noto Sans Gujarati',sans-serif; background:var(--bg); height:100vh; height:100dvh; overflow:hidden; position:fixed; width:100%; top:0; left:0; -webkit-font-smoothing:antialiased; }
+        .app-container { display:flex; height:100vh; height:100dvh; max-width:1920px; margin:0 auto; }
+        .sidebar { width:var(--sidebar-width); background:linear-gradient(180deg,#F2F4F8 0%,#FFFFFF 60%,#F2F4F8 100%); display:flex; flex-direction:column; transition:transform 0.35s cubic-bezier(0.4,0,0.2,1); z-index:100; position:relative; overflow:hidden; border-right:1px solid #D8DCF0; }
+        .sidebar::before { content:''; position:absolute; top:-60px; right:-60px; width:180px; height:180px; background:radial-gradient(circle,rgba(27,43,107,0.05) 0%,transparent 70%); pointer-events:none; }
+        .sidebar-header { padding:22px 18px 14px; flex-shrink:0; position:relative; z-index:1; border-bottom:1px solid #D8DCF0; }
+        .sidebar-brand { display:flex; align-items:center; gap:12px; margin-bottom:16px; }
+        .sidebar-logo { width:46px; height:46px; border-radius:var(--radius-md); flex-shrink:0; overflow:hidden; box-shadow:0 4px 18px rgba(27,43,107,0.35); }
+        .sidebar-logo img { width:100%; height:100%; object-fit:cover; display:block; }
+        .sidebar-brand-text h2 { font-size:12.5px; font-weight:800; color:#1B2B6B; line-height:1.2; letter-spacing:0.5px; }
+        .sidebar-brand-text p { font-size:10.5px; color:#6B7599; margin-top:2px; }
+        .sidebar-search { position:relative; }
+        .sidebar-search input { width:100%; padding:9px 14px 9px 36px; background:#FFFFFF; border:1.5px solid #D8DCF0; border-radius:var(--radius-sm); color:#1B2B6B; font-family:inherit; font-size:12px; outline:none; transition:all 0.2s; }
+        .sidebar-search input::placeholder { color:#9BA3C2; }
+        .sidebar-search input:focus { border-color:rgba(27,43,107,0.6); box-shadow:0 0 0 3px rgba(27,43,107,0.12); }
+        .sidebar-search-icon { position:absolute; left:11px; top:50%; transform:translateY(-50%); font-size:13px; opacity:0.45; }
+        .services-container { flex:1; overflow-y:auto; overflow-x:hidden; padding:10px 12px 16px; position:relative; z-index:1; }
+        .services-container::-webkit-scrollbar { width:3px; }
+        .services-container::-webkit-scrollbar-thumb { background:#B8C0DC; border-radius:3px; }
+        .service-category { margin-bottom:18px; }
+        .category-title { font-size:9.5px; font-weight:700; color:var(--accent); text-transform:uppercase; letter-spacing:1.4px; margin-bottom:8px; padding:0 6px; opacity:0.8; }
+        .service-item { background:#FFFFFF; border:1px solid #D8DCF0; border-radius:var(--radius-md); padding:10px 12px; margin-bottom:5px; cursor:pointer; transition:all 0.22s cubic-bezier(0.4,0,0.2,1); display:flex; align-items:center; gap:11px; }
+        .service-item:hover { background:#E8ECF8; border-color:#1B2B6B; transform:translateX(4px); }
+        .service-icon { font-size:18px; flex-shrink:0; width:36px; height:36px; background:#F2F4F8; border-radius:var(--radius-sm); display:flex; align-items:center; justify-content:center; transition:all 0.2s; }
+        .service-item:hover .service-icon { background:#D0D8F0; transform:scale(1.1); }
+        .service-details { flex:1; min-width:0; }
+        .service-name { font-size:12.5px; font-weight:600; color:#1B2B6B; line-height:1.3; margin-bottom:2px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+        .service-price { font-size:10.5px; font-weight:700; color:var(--accent); background:rgba(27,43,107,0.12); padding:1px 7px; border-radius:20px; display:inline-block; }
+        .service-arrow { color:#B8C0DC; font-size:13px; flex-shrink:0; transition:all 0.2s; }
+        .service-item:hover .service-arrow { color:#1B2B6B; transform:translateX(3px); }
+        .sidebar-footer { padding:12px 14px; border-top:1px solid #D8DCF0; flex-shrink:0; position:relative; z-index:1; }
+        .sidebar-contact { display:flex; align-items:center; gap:10px; padding:10px 12px; background:#FFFFFF; border-radius:var(--radius-md); border:1px solid #D8DCF0; cursor:pointer; transition:all 0.2s; }
+        .sidebar-contact:hover { background:#E8ECF8; }
+        .sidebar-contact-icon { font-size:17px; }
+        .sidebar-contact-text strong { display:block; font-size:11px; font-weight:700; color:#1B2B6B; }
+        .sidebar-contact-text span { font-size:10px; color:#9BA3C2; }
+        .chat-container { flex:1; display:flex; flex-direction:column; background:var(--white); min-width:0; }
+        .chat-header { background:#FFFFFF; border-bottom:1px solid #E4E4E7; padding:0 20px; display:flex; justify-content:space-between; align-items:center; flex-shrink:0; height:68px; box-shadow:0 1px 6px rgba(0,0,0,0.06); }
+        .header-left { display:flex; align-items:center; gap:12px; flex:1; min-width:0; }
+        .menu-toggle { display:none; background:rgba(255,255,255,0.1); border:1px solid rgba(27,43,107,0.3); color:var(--accent); width:38px; height:38px; border-radius:var(--radius-sm); cursor:pointer; font-size:18px; align-items:center; justify-content:center; flex-shrink:0; transition:all 0.2s; }
+        .menu-toggle:hover { background:#E8ECF8; }
+        .header-avatar { width:44px; height:44px; border-radius:var(--radius-md); overflow:hidden; flex-shrink:0; box-shadow:0 3px 12px rgba(27,43,107,0.3); }
+        .header-avatar img { width:100%; height:100%; object-fit:cover; display:block; }
+        .header-info { flex:1; min-width:0; }
+        .header-name { font-size:15px; font-weight:700; color:#1B2B6B; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+        .header-sub { font-size:11px; color:#71717A; display:flex; align-items:center; gap:5px; margin-top:2px; }
+        .online-dot { width:7px; height:7px; background:var(--success); border-radius:50%; animation:pulse 2s ease-in-out infinite; }
+        @keyframes pulse { 0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(34,197,94,0.4);}50%{opacity:0.7;box-shadow:0 0 0 4px rgba(34,197,94,0);} }
+        .messages-wrapper { flex:1; overflow-y:auto; overflow-x:hidden; padding:20px; background:linear-gradient(180deg,#f4f7ff 0%,#ffffff 100%); }
+        .messages-wrapper::-webkit-scrollbar { width:5px; }
+        .messages-wrapper::-webkit-scrollbar-thumb { background:var(--gray-300); border-radius:3px; }
+        .messages { max-width:820px; margin:0 auto; }
+        .message { display:flex; gap:10px; margin-bottom:18px; }
+        .message.bot { animation:botSlideIn 0.45s cubic-bezier(0.34,1.56,0.64,1) both; }
+        .message.user { animation:userSlideIn 0.4s cubic-bezier(0.34,1.56,0.64,1) both; }
+        @keyframes botSlideIn { from{opacity:0;transform:translateX(-22px) translateY(8px);}to{opacity:1;transform:translateX(0) translateY(0);} }
+        @keyframes userSlideIn { from{opacity:0;transform:translateX(22px) translateY(8px);}to{opacity:1;transform:translateX(0) translateY(0);} }
+        .message.bot .bubble { animation:bubblePop 0.35s cubic-bezier(0.34,1.56,0.64,1) 0.05s both; transform-origin:bottom left; }
+        .message.user .bubble { animation:bubblePopRight 0.35s cubic-bezier(0.34,1.56,0.64,1) 0.05s both; transform-origin:bottom right; }
+        @keyframes bubblePop { from{opacity:0;transform:scale(0.75);}to{opacity:1;transform:scale(1);} }
+        @keyframes bubblePopRight { from{opacity:0;transform:scale(0.75);}to{opacity:1;transform:scale(1);} }
+        .message .avatar { animation:avatarIn 0.4s cubic-bezier(0.34,1.56,0.64,1) 0.1s both; }
+        @keyframes avatarIn { from{opacity:0;transform:scale(0.5) rotate(-10deg);}to{opacity:1;transform:scale(1) rotate(0deg);} }
+        .suggestion-buttons .suggestion-btn { animation:suggestionIn 0.3s cubic-bezier(0.34,1.56,0.64,1) both; }
+        .suggestion-buttons .suggestion-btn:nth-child(1){animation-delay:0.15s;}
+        .suggestion-buttons .suggestion-btn:nth-child(2){animation-delay:0.22s;}
+        .suggestion-buttons .suggestion-btn:nth-child(3){animation-delay:0.29s;}
+        .suggestion-buttons .suggestion-btn:nth-child(4){animation-delay:0.36s;}
+        .suggestion-buttons .suggestion-btn:nth-child(5){animation-delay:0.43s;}
+        @keyframes suggestionIn { from{opacity:0;transform:translateY(8px) scale(0.9);}to{opacity:1;transform:translateY(0) scale(1);} }
+        .message-time { animation:fadeIn 0.5s ease 0.3s both; }
+        @keyframes fadeIn { from{opacity:0;}to{opacity:0.65;} }
+        .message.user { flex-direction:row-reverse; }
+        .avatar { width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:16px; flex-shrink:0; }
+        .message.bot .avatar { overflow:hidden; box-shadow:0 2px 8px rgba(27,43,107,0.3); background:transparent; }
+        .message.user .avatar { background:linear-gradient(135deg,#6366f1,#8b5cf6); box-shadow:0 2px 8px rgba(27,43,107,0.35); }
+        .message-content { flex:1; min-width:0; }
+        .bubble { display:inline-block; max-width:85%; padding:12px 16px; border-radius:var(--radius-lg); word-wrap:break-word; white-space:pre-wrap; line-height:1.58; font-size:13.5px; }
+        .message.bot .bubble { background:#F4F4F5; color:var(--gray-900); border-bottom-left-radius:5px; border:1px solid var(--gray-200); }
+        .message.user .bubble { background:linear-gradient(135deg,#1B2B6B,#2545A8); color:#FFFFFF; border-bottom-right-radius:5px; margin-left:auto; box-shadow:0 3px 12px rgba(27,43,107,0.3); }
+        .message.user .message-content { display:flex; flex-direction:column; align-items:flex-end; }
+        .message-time { font-size:10px; color:var(--gray-500); margin-top:5px; opacity:0.65; }
+        .suggestion-buttons { display:flex; flex-wrap:wrap; gap:7px; margin-top:12px; }
+        .suggestion-btn { background:linear-gradient(135deg,#E8ECF8,#D0D8F0); border:1.5px solid rgba(27,43,107,0.5); color:#1B2B6B; padding:7px 14px; border-radius:20px; font-size:11.5px; font-weight:600; cursor:pointer; font-family:inherit; transition:all 0.2s; box-shadow:0 1px 4px rgba(27,43,107,0.15); }
+        .suggestion-btn:hover { background:linear-gradient(135deg,#1B2B6B,#2545A8); color:#fff; border-color:var(--accent); transform:translateY(-2px); box-shadow:0 5px 14px rgba(27,43,107,0.35); }
+        .suggestion-btn.next-step { background:linear-gradient(135deg,#E8ECF8,#D0D8F0); border-color:rgba(27,43,107,0.3); color:var(--primary-light); }
+        .suggestion-btn.next-step:hover { background:linear-gradient(135deg,var(--primary-light),var(--primary)); color:#fff; }
+        .typing-indicator { display:none; align-items:center; gap:10px; margin-bottom:18px; }
+        .typing-indicator.active { display:flex; animation:botSlideIn 0.4s cubic-bezier(0.34,1.56,0.64,1) both; }
+        .typing-dots { display:flex; gap:5px; padding:13px 18px; background:var(--gray-100); border-radius:var(--radius-lg); border-bottom-left-radius:5px; border:1px solid var(--gray-200); align-items:center; position:relative; overflow:hidden; }
+        .typing-dots::before { content:''; position:absolute; inset:0; background:linear-gradient(90deg,transparent 0%,rgba(27,43,107,0.05) 50%,transparent 100%); animation:shimmer 1.8s ease-in-out infinite; }
+        @keyframes shimmer { 0%{transform:translateX(-100%);}100%{transform:translateX(200%);} }
+        .typing-dot { width:8px; height:8px; background:#1B2B6B; border-radius:50%; animation:typingAnim 1.2s ease-in-out infinite; opacity:0.6; }
+        .typing-dot:nth-child(1){animation-delay:0s;}
+        .typing-dot:nth-child(2){animation-delay:0.18s;}
+        .typing-dot:nth-child(3){animation-delay:0.36s;}
+        @keyframes typingAnim { 0%,100%{transform:translateY(0) scale(1);opacity:0.4;}40%{transform:translateY(-7px) scale(1.15);opacity:1;}60%{transform:translateY(-3px) scale(1.05);opacity:0.8;} }
+        .quick-bar { background:var(--white); border-top:1px solid var(--gray-200); padding:10px 16px 0; flex-shrink:0; overflow:hidden; }
+        .quick-bar-label { font-size:9.5px; font-weight:700; color:#1B2B6B; text-transform:uppercase; letter-spacing:1px; margin-bottom:8px; }
+        .quick-bar-scroll { display:flex; gap:8px; overflow-x:auto; padding-bottom:10px; scrollbar-width:none; }
+        .quick-bar-scroll::-webkit-scrollbar { display:none; }
+        .quick-chip { display:flex; align-items:center; gap:6px; white-space:nowrap; background:var(--gray-50); border:1.5px solid var(--gray-200); border-radius:20px; padding:6px 14px; font-size:11.5px; font-weight:600; color:var(--gray-700); cursor:pointer; font-family:inherit; transition:all 0.2s; flex-shrink:0; }
+        .quick-chip:hover { background:linear-gradient(135deg,var(--primary),var(--primary-light)); color:#fff; border-color:#fff; transform:translateY(-2px); box-shadow:0 4px 12px rgba(27,43,107,0.25); }
+        .quick-chip span:first-child { font-size:14px; }
+        .input-area { padding:12px 16px 14px; background:var(--white); flex-shrink:0; border-top:1px solid var(--gray-100); }
+        .input-container { max-width:820px; margin:0 auto; display:flex; gap:10px; align-items:center; background:var(--gray-50); border:2px solid var(--gray-200); border-radius:var(--radius-xl); padding:6px 6px 6px 16px; transition:all 0.22s; }
+        .input-container:focus-within { border-color:var(--accent); box-shadow:0 0 0 4px rgba(27,43,107,0.12),0 4px 20px rgba(27,43,107,0.1); background:var(--white); transform:translateY(-1px); }
+        #userInput { flex:1; border:none; background:transparent; font-size:14px; font-family:inherit; outline:none; color:var(--gray-900); min-width:0; }
+        #userInput::placeholder { color:var(--gray-500); }
+        #sendBtn { background:linear-gradient(135deg,#1B2B6B,#2545A8); border:none; color:#fff; width:42px; height:42px; border-radius:14px; cursor:pointer; font-size:18px; display:flex; align-items:center; justify-content:center; transition:all 0.2s; flex-shrink:0; box-shadow:0 4px 14px rgba(27,43,107,0.4); font-weight:700; }
+        #sendBtn:hover { transform:scale(1.08); box-shadow:0 6px 20px rgba(27,43,107,0.6); }
+        #sendBtn:active { transform:scale(0.92); }
+        @keyframes sendPulse { 0%{transform:scale(1);}40%{transform:scale(0.88) rotate(-8deg);}100%{transform:scale(1) rotate(0deg);} }
+        #sendBtn.sending { animation:sendPulse 0.35s cubic-bezier(0.34,1.56,0.64,1); }
+        .sidebar-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:99; opacity:0; transition:opacity 0.3s; backdrop-filter:blur(3px); }
+        .sidebar-overlay.active { display:block; opacity:1; }
+
+        /* ─── TICKET BOOKING FORM ─────────────────────────── */
+        .ticket-form-wrap {
+            background: #fff;
+            border: 1.5px solid #D8DCF0;
+            border-radius: 16px;
+            padding: 16px;
+            margin-top: 4px;
+            white-space: normal;
+            min-width: 260px;
+            max-width: 320px;
+            box-shadow: 0 4px 20px rgba(27,43,107,0.1);
+            animation: bubblePop 0.35s cubic-bezier(0.34,1.56,0.64,1) both;
+        }
+        .ticket-form-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: #1B2B6B;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .ticket-type-btns {
+            display: flex;
+            gap: 7px;
+            margin-bottom: 14px;
+            flex-wrap: wrap;
+        }
+        .ticket-type-btn {
+            flex: 1;
+            min-width: 72px;
+            padding: 7px 10px;
+            border: 1.5px solid #D8DCF0;
+            border-radius: 10px;
+            background: #F8F9FC;
+            color: #1B2B6B;
+            font-size: 11.5px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.18s;
+            text-align: center;
+        }
+        .ticket-type-btn.selected {
+            background: linear-gradient(135deg,#1B2B6B,#2545A8);
+            color: #fff;
+            border-color: #1B2B6B;
+            box-shadow: 0 3px 10px rgba(27,43,107,0.3);
+        }
+        .ticket-type-btn:hover:not(.selected) {
+            background: #E8ECF8;
+            border-color: #1B2B6B;
+        }
+        .ticket-field {
+            margin-bottom: 10px;
+        }
+        .ticket-field label {
+            display: block;
+            font-size: 10.5px;
+            font-weight: 700;
+            color: #6B7599;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            margin-bottom: 5px;
+        }
+        .ticket-field input {
+            width: 100%;
+            padding: 9px 12px;
+            border: 1.5px solid #D8DCF0;
+            border-radius: 9px;
+            font-family: inherit;
+            font-size: 13px;
+            color: #1B2B6B;
+            background: #F8F9FC;
+            outline: none;
+            transition: all 0.18s;
+        }
+        .ticket-field input:focus {
+            border-color: #1B2B6B;
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(27,43,107,0.1);
+        }
+        .ticket-field input::placeholder {
+            color: #9BA3C2;
+        }
+        .ticket-whatsapp-btn {
+            width: 100%;
+            margin-top: 6px;
+            padding: 11px;
+            background: linear-gradient(135deg,#25D366,#128C7E);
+            color: #fff;
+            border: none;
+            border-radius: 11px;
+            font-size: 13px;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s;
+            box-shadow: 0 4px 14px rgba(37,211,102,0.35);
+        }
+        .ticket-whatsapp-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37,211,102,0.5);
+        }
+        .ticket-whatsapp-btn:disabled {
+            background: linear-gradient(135deg,#aaa,#888);
+            box-shadow: none;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .ticket-form-note {
+            font-size: 10px;
+            color: #9BA3C2;
+            text-align: center;
+            margin-top: 8px;
+            line-height: 1.4;
+        }
+        /* ─────────────────────────────────────────────────── */
+
+        @media(max-width:1024px){ .sidebar{position:fixed;left:0;top:0;bottom:0;transform:translateX(-100%);} .sidebar.active{transform:translateX(0);} .menu-toggle{display:flex;} }
+        @media(max-width:768px){ :root{--sidebar-width:280px;} .chat-header{padding:0 14px;height:60px;} .header-name{font-size:13px;} .messages-wrapper{padding:14px;} .quick-bar{padding:8px 12px 0;} .input-area{padding:10px 12px 12px;} }
+        @media(max-width:480px){ .welcome-message h1{font-size:18px;} .ticket-form-wrap{max-width:100%;} }
+    </style>
+</head>
+<body>
+<div class="app-container">
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-brand">
+                <div class="sidebar-logo"><img src="1.png" alt="Logo"></div>
+                <div class="sidebar-brand-text">
+                    <h2 id="sidebarTitle">SHUBH XEROX & CSC</h2>
+                    <p id="sidebarSubtitle">સુરેન્દ્રનગર, ગુજરાત</p>
+                </div>
+            </div>
+            <div class="sidebar-search">
+                <span class="sidebar-search-icon">🔍</span>
+                <input type="text" id="sidebarSearch" placeholder="સેવા શોધો..." oninput="filterServices(this.value)">
+            </div>
+        </div>
+        <div class="services-container" id="servicesList"></div>
+        <div class="sidebar-footer">
+            <div class="sidebar-contact" onclick="ask('સંપર્ક માહિતી')">
+                <span class="sidebar-contact-icon">📞</span>
+                <div class="sidebar-contact-text">
+                    <strong id="contactLabel">સંપર્ક કરો</strong>
+                    <span id="timingLabel">સોમ–શનિ: 10AM – 6PM</span>
+                </div>
+                <span style="color:rgba(27,43,107,0.4);font-size:13px;">›</span>
+            </div>
+        </div>
+    </div>
+    <div class="chat-container">
+        <div class="chat-header">
+            <div class="header-left">
+                <button class="menu-toggle" id="menuToggle">☰</button>
+                <div class="header-avatar"><img src="1.png" alt="Logo"></div>
+                <div class="header-info">
+                    <div class="header-name" id="businessName">SHUBH XEROX & CSC CENTER</div>
+                    <div class="header-sub">
+                        <div class="online-dot"></div>
+                        <span id="statusTxt">ઓનલાઈન</span>
+                        <span>·</span>
+                        <span id="businessLocation">📍 સુરેન્દ્રનગર, ગુજરાત</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="messages-wrapper" id="messagesWrapper">
+            <div class="messages" id="messages">
+                <div class="typing-indicator" id="typingIndicator">
+                    <div class="avatar" style="overflow:hidden;border-radius:50%;box-shadow:0 2px 8px rgba(27,43,107,0.3);background:transparent">
+                        <img src="1.png" alt="Logo" style="width:100%;height:100%;object-fit:cover;display:block;">
+                    </div>
+                    <div class="typing-dots">
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="quick-bar">
+            <div class="quick-bar-label" id="quickBarLabel">ઝડપી સવાલ</div>
+            <div class="quick-bar-scroll" id="quickBarScroll"></div>
+        </div>
+        <div class="input-area">
+            <div class="input-container">
+                <input type="text" id="userInput" placeholder="તમારો સવાલ અહીં લખો..." autocomplete="off">
+                <button id="sendBtn" onclick="send()">➤</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+let msgCount = 0;
+
+const PHONE    = '9377890001';
+const WHATSAPP = '9377890001';
+
+const services = [
+    { category:'🆔 આધાર સેવાઓ', items:[
+        {icon:'📱',name:'મોબાઈલ નંબર અપડેટ',price:'₹100',q:'આધાર મોબાઈલ અપડેટ'},
+        {icon:'🏠',name:'એડ્રેસ અપડેટ',price:'₹150',q:'આધાર એડ્રેસ અપડેટ'}
+    ]},
+    { category:'💳 પાન કાર્ડ સેવાઓ', items:[
+        {icon:'💳',name:'નવું પાન કાર્ડ',price:'₹200',q:'નવું પાન કાર્ડ'},
+        {icon:'✏️',name:'પાન કાર્ડ સુધારો',price:'₹200',q:'પાન કાર્ડ સુધારો'}
+    ]},
+    { category:'🏥 આયુષ્માન કાર્ડ', items:[
+        {icon:'🏥',name:'આયુષ્માન કાર્ડ',price:'₹100',q:'આયુષ્માન કાર્ડ'}
+    ]},
+    { category:'🛂 પાસપોર્ટ', items:[
+        {icon:'🛂',name:'નવો પાસપોર્ટ',price:'₹2200',q:'નવો પાસપોર્ટ'}
+    ]},
+    { category:'🚗 ડ્રાઇવિંગ લાઇસન્સ', items:[
+        {icon:'🚗',name:'ડ્રાઇવિંગ લાઇસન્સ DL',price:'',q:'ડ્રાઇવિંગ લાઇસન્સ'}
+    ]},
+    { category:'📜 હયાતી પ્રમાણપત્ર', items:[
+        {icon:'📜',name:'હયાતી નો દાખલો',price:'₹50',q:'હયાતી નો દાખલો'}
+    ]},
+    { category:'🏭 ઉદ્યોગ આધાર (MSME)', items:[
+        {icon:'🏭',name:'ઉદ્યોગ આધાર નોંધણી',price:'',q:'ઉદ્યોગ આધાર'}
+    ]},
+    { category:'🏦 BOB બેન્ક સેવા', items:[
+        {icon:'🏦',name:'BOB ખાતું ખોલાવો',price:'FREE',q:'BOB ખાતું ખોલો'}
+    ]},
+    { category:'🎫 ટિકિટ બુકિંગ', items:[
+        {icon:'🎫',name:'ટ્રેન / ફ્લાઈટ / બસ ટિકિટ',price:'',q:'ટિકિટ બુકિંગ'}
+    ]},
+    { category:'🖨️ પ્રિન્ટ & ઝેરોક્સ', items:[
+        {icon:'🖨️',name:'ઝેરોક્સ / પ્રિન્ટ',price:'',q:'ઝેરોક્સ કેટલા પૈસા'},
+        // {icon:'📋',name:'ઓનલાઈન ફોર્મ',price:'',q:'ઓનલાઈન ફોર્મ'}
+    ]},
+    { category:'👰 સરકારી યોજના', items:[
+        {icon:'👰',name:'કુંવરબાઈનું મામેરું',price:'',q:'કુંવરબાઈનું મામેરું'},
+        {icon:'💼',name:'ઇ-શ્રમ કાર્ડ',price:'',q:'ઇ-શ્રમ કાર્ડ'},
+        {icon:'🎓',name:'ડિજિટલ ગુજરાત સ્કોલરશીપ',price:'',q:'ડિજિટલ ગુજરાત'},
+        {icon:'🏫',name:'RTE ફોર્મ',price:'',q:'rte form documents'}
+    ]},
+    { category:'📋 ભરતી / નોકરી', items:[
+        {icon:'📮',name:'પોસ્ટ ભરતી ફોર્મ',price:'🔜 Coming Soon',q:'પોસ્ટ ભરતી'},
+        {icon:'🚂',name:'રેલ્વે ભરતી ફોર્મ',price:'🔜 Coming Soon',q:'રેલ્વે ભરતી'}
+    ]},
+    { category:'💼 અન્ય સેવાઓ', items:[
+        {icon:'🛡️',name:'ઇન્સ્યોરન્સ',price:'',q:'ઇન્સ્યોરન્સ'},
+        {icon:'💳',name:'ક્રેડિટ કાર્ડ સ્વાઈપ',price:'',q:'ક્રેડિટ કાર્ડ સ્વાઈપ'}
+    ]},
+    { category:'ℹ️ માહિતી', items:[
+        {icon:'🕐',name:'શોપ ટાઈમિંગ',price:'',q:'શોપ ટાઈમિંગ'},
+        {icon:'📞',name:'સંપર્ક / Location',price:'',q:'સંપર્ક માહિતી'}
+    ]}
+];
+
+const quickChips = [
+    {icon:'🆔',text:'આધાર',q:'આધાર સેવાઓ'},
+    {icon:'💳',text:'પાન કાર્ડ',q:'નવું પાન કાર્ડ'},
+    {icon:'🏥',text:'આયુષ્માન',q:'આયુષ્માન કાર્ડ'},
+    {icon:'🏦',text:'BOB ખાતું',q:'BOB ખાતું ખોલો'},
+    {icon:'🚗',text:'DL',q:'ડ્રાઇવિંગ લાઇસન્સ'},
+    {icon:'📜',text:'હયાતી',q:'હયાતી નો દાખલો'},
+    {icon:'🏭',text:'ઉદ્યોગ',q:'ઉદ્યોગ આધાર'},
+    {icon:'👰',text:'મામેરું',q:'કુંવરબાઈનું મામેરું'},
+    {icon:'💼',text:'ઇ-શ્રમ',q:'ઇ-શ્રમ કાર્ડ'},
+    {icon:'🎓',text:'DG સ્કોલ',q:'ડિજિટલ ગુજરાત'},
+    {icon:'🏫',text:'RTE ફોર્મ',q:'RTE ફોર્મ'},
+    {icon:'📮',text:'પોસ્ટ ભરતી',q:'પોસ્ટ ભરતી'},
+    {icon:'🚂',text:'રેલ્વે',q:'રેલ્વે ભરતી'},
+    {icon:'🎫',text:'ટિકિટ',q:'ટિકિટ બુકિંગ'},
+    {icon:'🖨️',text:'ઝેરોક્સ',q:'ઝેરોક્સ'},
+    {icon:'🛂',text:'પાસપોર્ટ',q:'નવો પાસપોર્ટ'},
+    {icon:'🛡️',text:'ઇન્સ્યોરન્સ',q:'ઇન્સ્યોરન્સ'},
+    {icon:'🕐',text:'ટાઈમિંગ',q:'શોપ ટાઈમિંગ'}
+];
+
+const suggestionButtons = {
+    greeting:[
+        {icon:'🆔',text:'આધાર સેવા',q:'આધાર સેવાઓ',style:''},
+        {icon:'💳',text:'PAN / આયુષ્માન',q:'નવું પાન કાર્ડ',style:''},
+        {icon:'🏦',text:'BOB ખાતું',q:'BOB ખાતું ખોલો',style:''},
+        {icon:'🚗',text:'DL / હયાતી',q:'ડ્રાઇવિંગ લાઇસન્સ',style:''},
+        {icon:'👰',text:'કુંવરબાઈ મામેરું',q:'કુંવરબાઈનું મામેરું',style:''},
+        {icon:'💼',text:'ઇ-શ્રમ કાર્ડ',q:'ઇ-શ્રમ કાર્ડ',style:''},
+        {icon:'🎓',text:'ડિ.ગુ. સ્કોલ',q:'ડિજિટલ ગુજરાત',style:''},
+        {icon:'🏫',text:'RTE ફોર્મ',q:'RTE ફોર્મ',style:''},
+        {icon:'📮',text:'પોસ્ટ ભરતી',q:'પોસ્ટ ભરતી',style:''},
+        {icon:'🚂',text:'રેલ્વે ભરતી',q:'રેલ્વે ભરતી',style:''},
+        {icon:'🎫',text:'ટિકિટ',q:'ટિકિટ બુકિંગ',style:''},
+        {icon:'🏭',text:'ઉદ્યોગ / ઇન્સ્યો.',q:'ઉદ્યોગ આધાર',style:''}
+    ],
+    aadhar_menu:[
+        {icon:'📱',text:'મોબાઈલ અપડેટ',q:'આધાર મોબાઈલ અપડેટ',style:''},
+        {icon:'🏠',text:'એડ્રેસ અપડેટ',q:'આધાર એડ્રેસ અપડેટ',style:''}
+    ],
+    aadhar_mobile_done:[
+        {icon:'🏠',text:'એડ્રેસ અપડેટ',q:'આધાર એડ્રેસ અપડેટ',style:''},
+        {icon:'🕐',text:'શોપ ટાઈમિંગ',q:'શોપ ટાઈમિંગ',style:'next-step'},
+        {icon:'📍',text:'લોકેશન / ફોન',q:'સંપર્ક માહિતી',style:'next-step'},
+        {icon:'🔄',text:'અન્ય સેવા',q:'અન્ય સેવા',style:'next-step'}
+    ],
+    aadhar_address_done:[
+        {icon:'📱',text:'મોબાઈલ અપડેટ',q:'આધાર મોબાઈલ અપડેટ',style:''},
+        {icon:'🕐',text:'શોપ ટાઈમિંગ',q:'શોપ ટાઈમિંગ',style:'next-step'},
+        {icon:'📍',text:'લોકેશન / ફોન',q:'સંપર્ક માહિતી',style:'next-step'},
+        {icon:'🔄',text:'અન્ય સેવા',q:'અન્ય સેવા',style:'next-step'}
+    ],
+    pan_new_done:[
+        {icon:'✏️',text:'PAN સુધારો',q:'પાન કાર્ડ સુધારો',style:''},
+        {icon:'🏥',text:'આયુષ્માન',q:'આયુષ્માન કાર્ડ',style:''},
+        {icon:'📍',text:'લોકેશન / ફોન',q:'સંપર્ક માહિતી',style:'next-step'},
+        {icon:'🔄',text:'અન્ય સેવા',q:'અન્ય સેવા',style:'next-step'}
+    ],
+    pan_correction_done:[
+        {icon:'💳',text:'નવું PAN',q:'નવું પાન કાર્ડ',style:''},
+        {icon:'🏥',text:'આયુષ્માન',q:'આયુષ્માન કાર્ડ',style:''},
+        {icon:'📍',text:'લોકેશન / ફોન',q:'સંપર્ક માહિતી',style:'next-step'},
+        {icon:'🔄',text:'અન્ય સેવા',q:'અન્ય સેવા',style:'next-step'}
+    ],
+    ayushman_done:[
+        {icon:'💳',text:'PAN Card',q:'નવું પાન કાર્ડ',style:''},
+        {icon:'🏦',text:'BOB ખાતું',q:'BOB ખાતું ખોલો',style:''},
+        {icon:'📍',text:'લોકેશન / ફોન',q:'સંપર્ક માહિતી',style:'next-step'},
+        {icon:'🔄',text:'અન્ય સેવા',q:'અન્ય સેવા',style:'next-step'}
+    ],
+    passport_done:[
+        {icon:'💳',text:'PAN Card',q:'નવું પાન કાર્ડ',style:''},
+        {icon:'🚗',text:'DL',q:'ડ્રાઇવિંગ લાઇસન્સ',style:''},
+        {icon:'📍',text:'લોકેશન / ફોન',q:'સંપર્ક માહિતી',style:'next-step'},
+        {icon:'🔄',text:'અન્ય સેવા',q:'અન્ય સેવા',style:'next-step'}
+    ],
+    dl_done:[
+        {icon:'📜',text:'હયાતી',q:'હયાતી નો દાખલો',style:''},
+        {icon:'🛂',text:'Passport',q:'નવો પાસપોર્ટ',style:''},
+        {icon:'📍',text:'લોકેશન / ફોન',q:'સંપર્ક માહિતી',style:'next-step'},
+        {icon:'🔄',text:'અન્ય સેવા',q:'અન્ય સેવા',style:'next-step'}
+    ],
+    hayati_done:[
+        {icon:'🚗',text:'DL',q:'ડ્રાઇવિંગ લાઇસન્સ',style:''},
+        {icon:'🆔',text:'આધાર',q:'આધાર સેવાઓ',style:''},
+        {icon:'📍',text:'લોકેશન / ફોન',q:'સંપર્ક માહિતી',style:'next-step'},
+        {icon:'🔄',text:'અન્ય સેવા',q:'અન્ય સેવા',style:'next-step'}
+    ],
+    bob_done:[
+        {icon:'💳',text:'PAN Card',q:'નવું પાન કાર્ડ',style:''},
+        {icon:'🏥',text:'આયુષ્માન',q:'આયુષ્માન કાર્ડ',style:''},
+        {icon:'📍',text:'લોકેશન / ફોન',q:'સંપર્ક માહિતી',style:'next-step'},
+        {icon:'🔄',text:'અન્ય સેવા',q:'અન્ય સેવા',style:'next-step'}
+    ],
+    udyog_done:[
+        {icon:'🛡️',text:'ઇન્સ્યોરન્સ',q:'ઇન્સ્યોરન્સ',style:''},
+        {icon:'🏦',text:'BOB ખાતું',q:'BOB ખાતું ખોલો',style:''},
+        {icon:'📍',text:'લોકેશન / ફોન',q:'સંપર્ક માહિતી',style:'next-step'},
+        {icon:'🔄',text:'અન્ય સેવા',q:'અન્ય સેવા',style:'next-step'}
+    ],
+    ticket_done:[
+        {icon:'🆔',text:'આધાર',q:'આધાર સેવાઓ',style:''},
+        {icon:'💳',text:'PAN Card',q:'નવું પાન કાર્ડ',style:''},
+        {icon:'📍',text:'લોકેશન / ફોન',q:'સંપર્ક માહિતી',style:'next-step'},
+        {icon:'🔄',text:'અન્ય સેવા',q:'અન્ય સેવા',style:'next-step'}
+    ],
+    xerox_done:[
+        // {icon:'📋',text:'ઓનલાઈન ફોર્મ',q:'ઓનલાઈન ફોર્મ',style:''},
+        {icon:'🆔',text:'આધાર',q:'આધાર સેવાઓ',style:''},
+        {icon:'📍',text:'લોકેશન / ફોન',q:'સંપર્ક માહિતી',style:'next-step'},
+        {icon:'🔄',text:'અન્ય સેવા',q:'અન્ય સેવા',style:'next-step'}
+    ],
+    form_done:[
+        {icon:'🖨️',text:'ઝેરોક્સ',q:'ઝેરોક્સ કેટલા પૈસા',style:''},
+        {icon:'🆔',text:'આધાર',q:'આધાર સેવાઓ',style:''},
+        {icon:'📍',text:'લોકેશન / ફોન',q:'સંપર્ક માહિતી',style:'next-step'},
+        {icon:'🔄',text:'અન્ય સેવા',q:'અન્ય સેવા',style:'next-step'}
+    ],
+    insurance_done:[
+        {icon:'💳',text:'Credit Card Swipe',q:'ક્રેડિટ કાર્ડ સ્વાઈપ',style:''},
+        {icon:'🏭',text:'ઉદ્યોગ આધાર',q:'ઉદ્યોગ આધાર',style:''},
+        {icon:'📍',text:'લોકેશન / ફોન',q:'સંપર્ક માહિતી',style:'next-step'},
+        {icon:'🔄',text:'અન્ય સેવા',q:'અન્ય સેવા',style:'next-step'}
+    ],
+    yojana_done:[
+        {icon:'👰',text:'કુંવરબાઈ મામેરું',q:'કુંવરબાઈનું મામેરું',style:''},
+        {icon:'💼',text:'ઇ-શ્રમ',q:'ઇ-શ્રમ કાર્ડ',style:''},
+        {icon:'🎓',text:'DG Scholarship',q:'ડિજિટલ ગુજરાત',style:''},
+        {icon:'🏫',text:'RTE ફોર્મ',q:'RTE ફોર્મ',style:''},
+        {icon:'📍',text:'લોકેશન / ફોન',q:'સંપર્ક માહિતી',style:'next-step'},
+        {icon:'🔄',text:'અન્ય સેવા',q:'અન્ય સેવા',style:'next-step'}
+    ],
+    bharti_done:[
+        {icon:'📮',text:'પોસ્ટ ભરતી',q:'પોસ્ટ ભરતી',style:''},
+        {icon:'🚂',text:'રેલ્વે ભરતી',q:'રેલ્વે ભરતી',style:''},
+        {icon:'📍',text:'લોકેશન / ફોન',q:'સંપર્ક માહિતી',style:'next-step'},
+        {icon:'🔄',text:'અન્ય સેવા',q:'અન્ય સેવા',style:'next-step'}
+    ],
+    info_done:[
+        {icon:'🆔',text:'આધાર',q:'આધાર સેવાઓ',style:''},
+        {icon:'💳',text:'PAN',q:'નવું પાન કાર્ડ',style:''},
+        {icon:'🏦',text:'BOB ખાતું',q:'BOB ખાતું ખોલો',style:''},
+        {icon:'🚗',text:'DL',q:'ડ્રાઇવિંગ લાઇસન્સ',style:''}
+    ],
+    default:[
+        {icon:'🏠',text:'મુખ્ય મેનૂ',q:'અન્ય સેવા',style:'next-step'},
+        {icon:'📞',text:'સંપર્ક',q:'સંપર્ક માહિતી',style:'next-step'}
+    ]
+};
+
+// ─── Ticket booking form ID counter ──────────────────────
+let ticketFormCounter = 0;
+
+function buildTicketFormHtml() {
+    const id = 'tf' + (++ticketFormCounter);
+    const today = new Date().toISOString().split('T')[0];
+    return `<div class="ticket-form-wrap" id="${id}">
+        <div class="ticket-form-title">🎫 ટિકિટ બુકિંગ</div>
+        <div class="ticket-type-btns">
+            <button class="ticket-type-btn selected" onclick="selectTicketType('${id}','train',this)">🚂 ટ્રેન</button>
+            <button class="ticket-type-btn" onclick="selectTicketType('${id}','flight',this)">✈️ ફ્લાઈટ</button>
+            <button class="ticket-type-btn" onclick="selectTicketType('${id}','bus',this)">🚌 બસ</button>
+        </div>
+        <div class="ticket-field">
+            <label>ક્યાંથી (From)</label>
+            <input type="text" id="${id}_from" placeholder="ઉ.દા. Ahmedabad, Surat...">
+        </div>
+        <div class="ticket-field">
+            <label>ક્યાં (To)</label>
+            <input type="text" id="${id}_to" placeholder="ઉ.દા. Mumbai, Delhi...">
+        </div>
+        <div class="ticket-field">
+            <label>તારીખ (Date)</label>
+            <input type="date" id="${id}_date" min="${today}" value="${today}">
+        </div>
+        <button class="ticket-whatsapp-btn" onclick="sendTicketWhatsApp('${id}')">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            WhatsApp પર બુક કરો
+        </button>
+        <div class="ticket-form-note">📋 ટિકિટ details WhatsApp પર confirm થશે</div>
+    </div>`;
+}
+
+// Store selected type per form
+const ticketTypes = {};
+
+function selectTicketType(formId, type, btn) {
+    ticketTypes[formId] = type;
+    const btns = document.querySelectorAll(`#${formId} .ticket-type-btn`);
+    btns.forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+}
+
+function sendTicketWhatsApp(formId) {
+    const type = ticketTypes[formId] || 'train';
+    const from = document.getElementById(formId + '_from').value.trim();
+    const to   = document.getElementById(formId + '_to').value.trim();
+    const date = document.getElementById(formId + '_date').value;
+
+    if (!from || !to || !date) {
+        alert('કૃપા કરી From, To અને Date ભરો.');
+        return;
+    }
+
+    const typeLabel = type === 'train' ? 'Train' : type === 'flight' ? 'Flight' : 'Bus';
+    const msg = `*ટિકિટ બુકિંગ વિનંતી*\n━━━━━━━━━━━━━━━\nપ્રકાર: ${typeLabel}\nFrom: *${from}*\nTo: *${to}*\nતારીખ: *${date}*\n━━━━━━━━━━━━━━━\nનમસ્તે, મારે ઉપર મુજબ ટિકિટ બુક કરાવવી છે. કૃપા કરી confirm કરો.`;
+
+    const waUrl = `https://wa.me/91${WHATSAPP}?text=${encodeURIComponent(msg)}`;
+    window.open(waUrl, '_blank');
+}
+
+const kb = [
+    {
+        id: 'pan_correction',
+        kw: ['સુધ','સુધારો','પાન સુધ','pan sudh','pan correction','pan correct','pan sudhar','pan change','correction','pancard sudh','pan card sudh'],
+        ans: `✏️ પાન કાર્ડ સુધારો\n\n✅ જરૂરી દસ્તાવેજ:\n• જૂનું પાન કાર્ડ\n• આધાર કાર્ડ\n• પાસપોટ સાઈજ ફોટો અને સહી (કોર કાગળમાં સહી કરવી. )\n\n• આધાર કાર્ડમાં મોબાઈલ નંબર લિન્ક હોવો જરૂરી છે.\n💰 ફી: ₹200\n📦 ડિલિવરી: 15–20 દિવસ\n\n─────────────────────\n📱 ઘેર બેઠા (Online)\n─────────────────────\n✅ ઘરે બેઠા પણ પાન કાર્ડમાં સુધારો થઈ શકે!\n\nફક્ત WhatsApp પર Documents મોકલો:\n• OTP આપવો જરૂરી છે\n\n📱 [WhatsApp કરો: 9377890001](https://wa.me/919377890001)`,
+        suggestions: 'pan_correction_done'
+    },
+    {
+        id: 'pan_new',
+        kw: ['નવું પાન','new pan','pan card','pancard','pan kard','pan new','new pancard','pan apply','pan banav','paan card'],
+        ans: `💳 નવું પાન કાર્ડ\n\n✅ જરૂરી દસ્તાવેજ:\n• આધાર કાર્ડ\n• પાસપોટ સાઈજ ફોટો અને સહી (કોર કાગળમાં સહી કરવી. )\n\n• આધાર કાર્ડમાં મોબાઈલ નંબર લિન્ક હોવો જરૂરી છે.\n💰 ફી: ₹200\n📦 ડિલિવરી: 15–20 દિવસ\n\n─────────────────────\n📱 ઘેર બેઠા (Online)\n─────────────────────\n✅ ઘરે બેઠા પણ પાન કાર્ડ થઈ શકે!\n\nફક્ત WhatsApp પર Documents મોકલો:\n• OTP આપવો જરૂરી છે\n\n📱 [WhatsApp કરો: 9377890001](https://wa.me/919377890001)`,
+        suggestions: 'pan_new_done'
+    },
+    {
+        id: 'aadhar_menu',
+        kw: ['આધાર સેવ','aadhar service','aadhar seva','aadhar services'],
+        ans: `🆔 આધાર સેવાઓ\n\nકઈ સેવા જોઈએ?`,
+        suggestions: 'aadhar_menu'
+    },
+    {
+        id: 'aadhar_mobile',
+        kw: ['મોબાઈલ','mobile','mob update','mob number','mobile update','aadhar mobile','aadhar mob','mobile no','mobile num'],
+        ans: `📱 આધાર મોબાઈલ નંબર અપડેટ\n\n✅ જરૂરી દસ્તાવેજ:\n• આધાર કાર્ડ (original)\n• નવો મોબાઈલ નંબર (active)\n• મોબાઈલ સાથે હોવો જરૂરી છે.\n\n💰 ફી: ₹100\n📍ઓફિસએ રૂબરૂ આવું ફરજિયાત છે.`,
+        suggestions: 'aadhar_mobile_done'
+    },
+    {
+        id: 'aadhar_address',
+        kw: ['આધાર એડ્રેસ','aadhar address','aadhar sarnam','સરનામ','sarnam','aadhar adress','address change aadhar'],
+        ans: `🏠 આધાર એડ્રેસ/સરનામું અપડેટ\n\n─────────────────────\n🏪 રૂબરૂ આવો (Offline)\n─────────────────────\n✅ જરૂરી દસ્તાવેજ:\n• આધાર કાર્ડ (original)\n• નવો એડ્રેસ પ્રૂફ:\n  - રાશન કાર્ડ\n  - જગદીશભાઇ મકવાણા ના સહી સિક્કા વાળુ ફોર્મ\n\n📄 ફોર્મ ડાઉનલોડ કરો:\n[આધાર સરનામું સુધારો ફોર્મ ⬇️](aadhar_address_form.pdf)\n\n💰 ફી: ₹150  |  ⏱ સમય: 20–30 મિનિટ\n\n─────────────────────\n📱 ઘેર બેઠા (Online)\n─────────────────────\n✅ ઘરે બેઠા પણ એડ્રેસ અપડેટ થઈ શકે!\n\nફક્ત WhatsApp પર Documents મોકલો:\n• આધાર કાર્ડનો ફોટો\n• એડ્રેસ પ્રૂફનો ફોટો\n• OTP આપવો જરૂરી છે\n\n📱 [WhatsApp કરો: 9377890001](https://wa.me/919377890001)\n\n💰 ફી: ₹150  |  📦 અપડેટ: 7–15 દિવસ`,
+        suggestions: 'aadhar_address_done'
+    },
+    {
+        id: 'ayushman',
+        kw: ['આયુષ્માન','ayushman','health card','ayushman card','ayushaman','pmjay','ayushman bharat'],
+        ans: `🏥 નવું આયુષ્યમાન કાર્ડ\n\n✅ જરૂરી દસ્તાવેજ:\n• આધાર કાર્ડ\n• રેશન કાર્ડ\n• આવકનો દાખલો\n• માણસને રૂબરૂ આવાનું રહશે.\n• નોંધ: આધાર કાર્ડ સાથે મોબાઈલ નંબર લિન્ક હોય તે સાથે લાવો.\n\n• નોંધ : રેશન કાર્ડમાં અનાજ લેવા જતાં હોય તેવા રેશન કાર્ડ ધારકને આવકના દાખલાં ની જરૂર નથી.\n\n💰 ફી: ₹100\n🏥 ₹5 લાખ સુધી મફત સારવાર!\n\n─────────────────────\n🏥 આયુષ્યમાન કાર્ડ રિન્યૂ માટે\n─────────────────────\n\n✅ જરૂરી દસ્તાવેજ:\n• આધાર કાર્ડ\n• રેશન કાર્ડ\n• આવકનો દાખલો\n• જૂનું આયુષ્યમાન કાર્ડ સાથે લાવવું.\n• માણસને રૂબરૂ આવાનું રહશે.\n• નોંધ: આધાર કાર્ડ સાથે મોબાઈલ નંબર લિન્ક હોય તે સાથે લાવો.\n\n💰 ફી: ₹100\n🏥 ₹5 લાખ સુધી મફત સારવાર!\n\n─────────────────────\n🏥 આયુષ્યમાન G-Category કાર્ડ\n─────────────────────\n\n✅ જરૂરી દસ્તાવેજ:\n• સરકારી લેટર\n• આધાર કાર્ડ\n• માણસને રૂબરૂ આવાનું રહશે.\n• નોંધ: આધાર કાર્ડ સાથે મોબાઈલ નંબર લિન્ક હોય તે સાથે લાવો.\n\n💰 ફી: ₹100\n🏥 ₹10 લાખ સુધી મફત સારવાર!\n\n───────────────────────────────\n🏥 આયુષ્યમાન વય વંદના કાર્ડ (70 + વર્ષના ઉમેદવાર માટે)\n───────────────────────────────\n\n✅ જરૂરી દસ્તાવેજ:\n• આધાર કાર્ડ\n\n• માણસને રૂબરૂ આવાનું રહશે.\n• નોંધ: આધાર કાર્ડ સાથે મોબાઈલ નંબર લિન્ક હોય તે સાથે લાવો.\n\n💰 ફી: ₹100\n🏥 ₹5 લાખ સુધી મફત સારવાર!`,
+        suggestions: 'ayushman_done'
+    },
+    {
+        id: 'bob_account',
+        kw: ['bob','bank of baroda','ખાતું ખોલ','khatu kholo','account open','open account','bob account','bob bank','open bob','bank account open'],
+        ans: `🏦 BOB (Bank of Baroda) ખાતું ખોલો\n\n✅ જરૂરી દસ્તાવેજ:\n• આધાર કાર્ડ\n• પાન કાર્ડ\n• પાસપોટ ફોટો\n• નોંધ: આધાર કાર્ડ સાથે મોબાઈલ નંબર લિન્ક હોય તે સાથે લાવો.\n\n💰 પ્રારંભિક જમા રકમ: ₹2000 (ફરજિયાત)\n❌ ખાતું ખોલવા કોઈ ચાર્જ નથી\n✅ ₹2000 સીધા તમારા ખાતામાં જમા થશે`,
+        suggestions: 'bob_done'
+    },
+    {
+        id: 'driving_licence',
+        kw: ['ડ્રાઇવ','driving','licence','license','laisenss','driving licence','driving license','learner licence','learning licence','ll licence'],
+        ans: `🚗 નવું ડ્રાઇવિંગ લાઇસન્સ\n\n✅ જરૂરી દસ્તાવેજ:\n• આધાર કાર્ડ\n• પાન કાર્ડ અથવા સ્કૂલ લિવિંગ\n• પાસપોર્ટ ફોટો અને  સહી (કોરા કાગળમાં સહી કરવી)\n\n─────────────────────\n🚗 રિન્યૂ ડ્રાઇવિંગ લાઇસન્સ\n─────────────────────\n✅ જરૂરી દસ્તાવેજ:\n• આધાર કાર્ડ\n• જૂનું ડ્રાઇવિંગ લાઇસન્સ\n• પાસપોર્ટ ફોટો અને  સહી (કોરા કાગળમાં સહી કરવી)\n\n─────────────────────\n📱 ઘેર બેઠા (Online)\n─────────────────────\n✅ ઘરે બેઠા પણ ડ્રાઇવીંગ લાઇસન્સ થઈ શકે!\n\nફક્ત WhatsApp પર Documents મોકલો:\n• OTP આપવો જરૂરી છે\n\n📱 [WhatsApp કરો: 9377890001](https://wa.me/919377890001)`,
+        suggestions: 'dl_done'
+    },
+    {
+        id: 'hayati',
+        kw: ['હયાત','hayati','survival certificate','life certificate','hyati','ppo','life cert','hayat','pension certificate'],
+        ans: `📜 હયાતી નો દાખલો (Life Certificate)\n\n✅ જરૂરી દસ્તાવેજ:\n• આધાર કાર્ડ\n• PPO નંબર\n• બેંકની પાસબૂક\n\n• નોંધ: આધાર કાર્ડ સાથે મોબાઈલ નંબર લિન્ક હોય તે સાથે લાવો.\n\n💰 ફી: ₹50`,
+        suggestions: 'hayati_done'
+    },
+    {
+        id: 'udyog_aadhar',
+        kw: ['ઉદ્યોગ','udyog','msme','business register','udhyog','udyog aadhar','msme register','udyam'],
+        ans: `🏭 ઉદ્યોગ આધાર (MSME) નોંધણી\n\n✅ જરૂરી દસ્તાવેજ:\n• આધાર કાર્ડ\n• પાન કાર્ડ\n• IT Return (ઉપલબ્ધ હોય તો)\n• મોબાઈલ નંબર\n• ધંધાનું નામ  & ધંધાનું સરનામું\n• બેંકની પાસબૂક\n\nનોંધ: આધાર કાર્ડમાં મોબાઈલ નંબર લિન્ક હોવો જરૂરી છે.\n\n💰 ફી: ₹500\n\n─────────────────────\n📱 ઘેર બેઠા (Online)\n─────────────────────\n✅ ઘરે બેઠા પણ  ઉદ્યોગ આધાર (MSME) નોંધણી થઈ શકે!\n\nફક્ત WhatsApp પર Documents મોકલો:\n• OTP આપવો જરૂરી છે\n\n📱 [WhatsApp કરો: 9377890001](https://wa.me/919377890001)`,
+        suggestions: 'udyog_done'
+    },
+    {
+        id: 'ticket_booking',
+        kw: ['ટિકિટ','ticket','tikit','train','ટ્રેન','rail','reil','railway','irctc','flight','ફ્લાઈટ','plane','airplane','hawai','bus','બસ','gsrtc','booking','bhuking','book ticket'],
+        ans: '__TICKET_FORM__',
+        suggestions: 'ticket_done'
+    },
+    {
+        id: 'passport',
+        kw: ['પાસ','passport','new passport','passport apply','passport banav'],
+        ans: `🛂 નવો પાસપોર્ટ\n\n✅ જરૂરી દસ્તાવેજ:\n• આધાર કાર્ડ\n• પાન કાર્ડ\n• જન્મનો દાખલો અથવા LC\n• છેલ્લી માર્કશીટ\n\n💰 ફી: ₹2000\n\n─────────────────────\n📱 ઘેર બેઠા (Online)\n─────────────────────\n✅ ઘરે બેઠા પણ પાસપોર્ટ થઈ શકે!\n\nફક્ત WhatsApp પર Documents મોકલો:\n\n📱 [WhatsApp કરો: 9377890001](https://wa.me/919377890001)\n\n─────────────────────\n🏥 પાસપોર્ટ રિન્યૂ માટે\n─────────────────────\n\n✅ જરૂરી દસ્તાવેજ:\n• પાસપોર્ટ\n• આધાર કાર્ડ\n• પાન કાર્ડ\n• જન્મનો દાખલો અથવા LC\n• છેલ્લી માર્કશીટ\n\n💰 ફી: ₹2000\n\n─────────────────────\n📱 ઘેર બેઠા (Online)\n─────────────────────\n✅ ઘરે બેઠા પણ પાસપોર્ટ રિન્યૂ થઈ શકે!\n\nફક્ત WhatsApp પર Documents મોકલો:\n\n📱 [WhatsApp કરો: 9377890001](https://wa.me/919377890001)`,
+        suggestions: 'passport_done'
+    },
+    {
+        id: 'rte_form',
+        kw: ['rte','આર.ટી.ઈ','rte form','rte forem','rte document','right to education','rte application','આરટીઈ','rte ફોર્મ','rte farma'],
+        ans: `🏫 RTE ફોર્મ (Right to Education)\n\n✅ જરૂરી દસ્તાવેજ:\n• ૧. આધાર કાર્ડ (પિતા, માતા, બાળક)\n• ૨. રેશન કાર્ડ\n• ૩. આવકનો દાખલો\n• ૪. વાલીનું જાતિનું પ્રમાણપત્ર\n• ૫. બાળક કે વાલીના બેંક ખાતાની પાસબૂક\n• ૬. BPL દાખલો (BPL કાર્ડ ધારક હોય તો)\n• ૭. ફોટો અને સહી\n\n💰 ફી: સેવા અનુસાર\n\n─────────────────────\n📱 ઘેર બેઠા (Online)\n─────────────────────\n✅ ઘરે બેઠા પણ RTE ફોર્મ ભરી શકાય!\n\nWhatsApp પર Documents મોકલો:\n• OTP આપવો જરૂરી છે\n\n📱 [WhatsApp કરો: 9377890001](https://wa.me/919377890001)`,
+        suggestions: 'yojana_done'
+    },
+    // {
+    //     id: 'form',
+    //     kw: ['ઓનલાઈન ફ','online form','government form','sarkari form','naukri form','job form','online farma'],
+    //     ans: `📋 ઓનલાઈન ફોર્મ\n\n✅ ઉપલબ્ધ:\n🏛 સરકારી નોકરી ફોર્મ\n🎓 College Admission\n📚 Scholarship\n🏦 Bank Account Opening\n🏠 Government Schemes\n\n💰 ફી: સેવા અનુસાર\n📄 Document copy included!`,
+    //     suggestions: 'form_done'
+    // },
+    {
+        id: 'timing',
+        kw: ['ટાઈ','timing','shop timing','shop time','shoptime','shop kholva','dukan time','shop band','closing time','opening time','kholva samay','band samay'],
+        ans: `🕐 SHUBH XEROX & CSC Center\n\n📅 સોમવાર – શનિવાર:\n10:00 AM – 7:30 PM\n\n📅 રવિવાર:\n10:00 AM – 2:00 PM\n\n📍 કુંથુનાથ દેરાસર, સર્વોદય સોસાયટી સામે,\nનવા જંકશન રોડ, સુરેન્દ્રનગર`,
+        suggestions: 'info_done'
+    },
+    {
+        id: 'contact',
+        kw: ['સંપર્ક','contact','ફોન નં','phone number','location','loca','પત્તો','where shop','whatsapp','shop address','dukan address','dukan no','shop no','contact info','contact information'],
+        ans: `📞 SHUBH XEROX & CSC Center\n\n📍 સ્થળ:\nકુંથુનાથ દેરાસર, સર્વોદય સોસાયટી સામે,\nનવા જંકશન રોડ, સુરેન્દ્રનગર, ગુજરાત\n\n☎️ ફોન: ${PHONE}\n📱 WhatsApp: ${WHATSAPP}\n\n🕐 સોમવાર–શનિવાર: 10AM–7:30PM\n🕐 રવિવાર: 10AM–2PM \n\n📱 [WhatsApp કરો: 9377890001](https://wa.me/919377890001)`,
+        suggestions: 'info_done'
+    },
+    {
+        id: 'fees',
+        kw: ['ફી','fee','price','charge','cost','amount','paise','₹','charges','fees','rate','rupe','kitla','kharach','seva ni fee'],
+        ans: `💰 સંપૂર્ણ ફી યાદી\n\n🆔 આધાર:\n📱 મોબાઈલ: ₹100\n🏠 એડ્રેસ: ₹150\n\n💳 PAN Card: ₹200\n🏥 Ayushman: ₹100\n🛂 Passport: ₹2000\n🚗 DL: Govt fee + Service\n📜 હયાતી: ₹50\n🏭 ઉદ્યોગ: Govt + Service\n🏦 BOB Account: FREE\n\n🖨️ ઝેરોક્સ:\n📄 સીંગલ સાઈડ: ₹2\n📄 બન્ને સાઈડ: ₹4\n\n📱 મોબાઈલ પ્રિન્ટ:\n🖨️ સીંગલ સાઈડ: ₹5\n🖨️ બન્ને સાઈડ: ₹10\n\n🎨 કલર પ્રિન્ટ:\n📃 સાદા પેપર: ₹15\n📸 ફોટો પેપર: ₹30\n\n📎 A/4 લેમિનેશન: ₹20`,
+        suggestions: 'info_done'
+    },
+    {
+        id: 'xerox',
+        kw: ['ઝેરો','xerox','zerox','photocopy','photo copy','lamin','lamination','binding','spiral','scan','copy kadh'],
+        ans: `🖨️ ઝેરોક્સ & પ્રિન્ટ ભાવ યાદી\n\n📋 ઝેરોક્સ:\n📄 સીંગલ સાઈડ (એક કોપી): ₹2\n📄 બન્ને સાઈડ (એક કોપી): ₹4\n\n📱 મોબાઈલ પ્રિન્ટ:\n🖨️ સીંગલ સાઈડ: ₹5\n🖨️ બન્ને સાઈડ: ₹10\n\n🎨 કલર પ્રિન્ટ:\n📃 સાદા પેપરમાં: ₹15\n📸 ફોટો પેપરમાં: ₹30\n\n📎 A/4 લેમિનેશન: ₹20\n\n⚡ Bulk order discount available!`,
+        suggestions: 'xerox_done'
+    },
+    {
+        id: 'print',
+        kw: ['print','પ્રિન્ટ','colour print','color print','b&w print','black white print','mobile print','mobile thi print'],
+        ans: `🖨️ ઝેરોક્સ & પ્રિન્ટ ભાવ યાદી\n\n📋 ઝેરોક્સ:\n📄 સીંગલ સાઈડ (એક કોપી): ₹2\n📄 બન્ને સાઈડ (એક કોપી): ₹4\n\n📱 મોબાઈલ પ્રિન્ટ:\n🖨️ સીંગલ સાઈડ: ₹5\n🖨️ બન્ને સાઈડ: ₹10\n\n🎨 કલર પ્રિન્ટ:\n📃 સાદા પેપરમાં: ₹15\n📸 ફોટો પેપરમાં: ₹30\n\n📎 A/4 લેમિનેશન: ₹20\n\n⚡ Bulk order discount available!`,
+        suggestions: 'xerox_done'
+    },
+    {
+        id: 'insurance',
+        kw: ['ઇન્સ','insurance','vima','વીમ','vehicle insurance','health insurance','life insurance','two wheeler insurance','four wheeler insurance','car insurance','bike insurance'],
+        ans: `🛡️ ઇન્સ્યોરન્સ (Insurance)\n\n✅ ઉપલબ્ધ:\n🚗 Vehicle Insurance (Two/Four Wheeler)\n\n📋 જરૂરી દસ્તાવેજ:\n• આધાર કાર્ડ\n• પાન કાર્ડ\n• વાહન RC બૂક\n\n💰 ફી: Policy અનુસાર\n\n─────────────────────\n📱 ઘેર બેઠા (Online)\n─────────────────────\n✅ ઘરે બેઠા પણ ઇન્સ્યોરન્સ થઈ શકે!\n\nફક્ત WhatsApp પર Documents મોકલો:\n\n📱 [WhatsApp કરો: 9377890001](https://wa.me/919377890001)`,
+        suggestions: 'insurance_done'
+    },
+    {
+        id: 'credit_card_swipe',
+        kw: ['ક્રેડ','credit','swipe','card swipe','machine','credit card','debit card','pos machine'],
+        ans: `💳 ક્રેડિટ / ડેબિટ કાર્ડ સ્વાઈપ\n\n✅ Credit Card Swipe સેવા ઉપલબ્ધ\n\n💰 Charge: Policy અનુસાર\n\n─────────────────────\n📱 ઘેર બેઠા (Online)\n─────────────────────\n✅ ઘરે બેઠા પણ પાન કાર્ડ થઈ શકે!\n\nફક્ત WhatsApp પર Documents મોકલો:\n\n📱 [WhatsApp કરો: 9377890001](https://wa.me/919377890001)`,
+        suggestions: 'insurance_done'
+    },
+    {
+        id: 'kunvarbai_mameru',
+        kw: ['કુંવરબ','mameru','mamerun','kunvarbai','kunwarbai','mameru yojana','kuvar','mameru form'],
+        ans: `👰 કુંવરબાઈનું મામેરું યોજના\n\n✅ જરૂરી દસ્તાવેજ:\n• રેશન કાર્ડ (અરજદારના નામ અને નંબર વાળા બંને પેજ)\n• બેંક પાસબૂકની પ્રથમ પાનાની નકલ / યુવતીના નામનું\n• કન્યાના પિતા / વાલીની વાર્ષિક આવકનો દાખલો\n• કન્યા અને પિતાનું તથા પતિનું આધાર કાર્ડ\n• લગ્ન નોંધણી પ્રમાણપત્ર અને જાતિ નો દાખલો\n• ફોટો\n\n💰 ફી: 300\n\n─────────────────────\n📱 ઘેર બેઠા (Online)\n─────────────────────\n✅ ઘરે બેઠા પણ ફોર્મ ભરી શકાય!\n\nWhatsApp પર Documents મોકલો:\n\n📱 [WhatsApp કરો: 9377890001](https://wa.me/919377890001)`,
+        suggestions: 'yojana_done'
+    },
+    {
+        id: 'e_shram',
+        kw: ['ઇ-શ્રમ','eshram','e shram','e-shram','ishram','shram card','shram kard','labour card','shramik'],
+        ans: `💼 ઇ-શ્રમ કાર્ડ\n\n✅ જરૂરી દસ્તાવેજ:\n• આધાર કાર્ડ\n• બેંક પાસબૂક\n• મોબાઈલ નંબર (ફરજિયાત)\n• આધાર કાર્ડમાં મોબાઈલ નંબર લિન્ક હોવો જરૂરી છે.\n\n💰 ફી: 100\n\n─────────────────────\n📱 ઘેર બેઠા (Online)\n─────────────────────\n✅ ઘરે બેઠા પણ ઇ-શ્રમ કાર્ડ થઈ શકે!\n\nWhatsApp પર Documents મોકલો:\n• OTP આપવો જરૂરી છે\n\n📱 [WhatsApp કરો: 9377890001](https://wa.me/919377890001)`,
+        suggestions: 'yojana_done'
+    },
+    {
+        id: 'digital_gujarat',
+        kw: ['ડિજિટ','digital gujarat','digitalgujarat','dg scholarship','scholarship','સ્કોલ','digital guj','dig guj'],
+        ans: `🎓 ડિજિટલ ગુજરાત સ્કોલરશીપ\n\n✅ જરૂરી દસ્તાવેજ:\n• ૧. આધાર કાર્ડ\n• ૨. છેલ્લી પરિક્ષાની માર્કશીટ\n• ૩. આવકનો દાખલો\n• ૪. ફી ભર્યાની પાવતી\n• ૫. બેંક પાસબૂક\n• ૬. બોનોફાઈડ સર્ટી (શાળા કે કોલેજમાં મળશે)\n• ૭. જાતીનો દાખલો\n• ૮. એલ.સી.\n• ૯. પાસપોર્ટ ફોટો અને સહી\n\n💰 ફી: 250\n\n─────────────────────\n📱 ઘેર બેઠા (Online)\n─────────────────────\n✅ ઘરે બેઠા પણ Scholarship Apply થઈ શકે!\n• OTP આપવો જરૂરી છે\n\nWhatsApp પર Documents મોકલો:\n\n📱 [WhatsApp કરો: 9377890001](https://wa.me/919377890001)`,
+        suggestions: 'yojana_done'
+    },
+    {
+        id: 'post_bharti',
+        kw: ['પોસ્ટ','post bharti','postal','india post','post office','post form','post vibhag','gramin dak'],
+        ans: `📮 પોસ્ટ ભરતી ફોર્મ\n\n⏳ આ સેવા ટૂંક સમયમાં ઉપલબ્ધ થશે!\n\n🔔 જ્યારે ભરતી આવે ત્યારે:\n• Documents ready રાખો\n• WhatsApp પર contact કરો\n\n📱 [WhatsApp કરો: 9377890001](https://wa.me/919377890001)`,
+        suggestions: 'bharti_done'
+    },
+    {
+        id: 'railway_bharti',
+        kw: ['રેલ','railway','rrb','railway bharti','rail bharti','rrb form','railway form','group d','ntpc','rrb ntpc','railway job'],
+        ans: `🚂 રેલ્વે ભરતી ફોર્મ\n\n⏳ આ સેવા ટૂંક સમયમાં ઉપલબ્ધ થશે!\n\n🔔 જ્યારે ભરતી આવે ત્યારે:\n• Documents ready રાખો\n• WhatsApp પર contact કરો\n\n📱 [WhatsApp કરો: 9377890001](https://wa.me/919377890001)`,
+        suggestions: 'bharti_done'
+    },
+    {
+        id: 'other_service',
+        kw: ['અન્ય સેવ','other service','other seva','main menu','મુખ્ય મેનૂ','menu','બીજ','seva','service'],
+        ans: `🙏 ઠીક છે! બીજી કઈ સેવા જોઈએ?`,
+        suggestions: 'greeting'
+    }
+];
+
+// ─── Mobile menu ─────────────────────────────────────────
+const menuToggle = document.getElementById('menuToggle');
+const sidebar = document.getElementById('sidebar');
+const sidebarOverlay = document.getElementById('sidebarOverlay');
+menuToggle.addEventListener('click', () => { sidebar.classList.toggle('active'); sidebarOverlay.classList.toggle('active'); });
+sidebarOverlay.addEventListener('click', () => { sidebar.classList.remove('active'); sidebarOverlay.classList.remove('active'); });
+
+function loadServices(filter = '') {
+    const container = document.getElementById('servicesList');
+    container.innerHTML = '';
+    services.forEach(category => {
+        const items = filter ? category.items.filter(i => i.name.toLowerCase().includes(filter.toLowerCase())) : category.items;
+        if (items.length === 0) return;
+        const catDiv = document.createElement('div');
+        catDiv.className = 'service-category';
+        const catTitle = document.createElement('div');
+        catTitle.className = 'category-title';
+        catTitle.textContent = category.category;
+        catDiv.appendChild(catTitle);
+        items.forEach(item => {
+            const el = document.createElement('div');
+            el.className = 'service-item';
+            el.onclick = () => { ask(item.q); if (window.innerWidth <= 1024) { sidebar.classList.remove('active'); sidebarOverlay.classList.remove('active'); } };
+            el.innerHTML = `<div class="service-icon">${item.icon}</div><div class="service-details"><div class="service-name">${item.name}</div><div class="service-price">${item.price}</div></div><span class="service-arrow">›</span>`;
+            catDiv.appendChild(el);
+        });
+        container.appendChild(catDiv);
+    });
+}
+
+function filterServices(val) { loadServices(val); }
+
+function loadQuickBar() {
+    const container = document.getElementById('quickBarScroll');
+    container.innerHTML = '';
+    quickChips.forEach(chip => {
+        const btn = document.createElement('button');
+        btn.className = 'quick-chip';
+        btn.onclick = () => ask(chip.q);
+        btn.innerHTML = `<span>${chip.icon}</span><span>${chip.text}</span>`;
+        container.appendChild(btn);
+    });
+}
+
+function time() {
+    return new Date().toLocaleTimeString('gu-IN', { hour: '2-digit', minute: '2-digit' });
+}
+
+function addMsg(txt, isUser = false, sugKey = '') {
+    const msgs = document.getElementById('messages');
+    const typing = document.getElementById('typingIndicator');
+    const div = document.createElement('div');
+    div.className = `message ${isUser ? 'user' : 'bot'}`;
+
+    let sugHtml = '';
+    if (!isUser && sugKey) {
+        const sugs = suggestionButtons[sugKey];
+        if (sugs && sugs.length > 0) {
+            sugHtml = '<div class="suggestion-buttons">';
+            sugs.forEach(s => {
+                const cls = s.style ? `suggestion-btn ${s.style}` : 'suggestion-btn';
+                sugHtml += `<button class="${cls}" onclick="ask('${s.q}')">${s.icon} ${s.text}</button>`;
+            });
+            sugHtml += '</div>';
+        }
+    }
+
+    const avatarBg = isUser ? 'background:linear-gradient(135deg,#6366f1,#8b5cf6)' : 'background:transparent;overflow:hidden;border-radius:50%;';
+
+    // Special: ticket form
+    let bubbleContent;
+    if (!isUser && txt === '__TICKET_FORM__') {
+        bubbleContent = buildTicketFormHtml();
+    } else {
+        bubbleContent = isUser ? escapeHtml(txt) : formatMsg(txt);
+    }
+
+    div.innerHTML = `
+        <div class="avatar" style="${avatarBg}">${isUser ? '👤' : '<img src="1.png" alt="Logo" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:50%;">'}</div>
+        <div class="message-content">
+            <div class="bubble">${bubbleContent}</div>
+            ${sugHtml}
+            <div class="message-time">${time()}</div>
+        </div>`;
+
+    msgs.insertBefore(div, typing);
+    scrollToBottom();
+    msgCount++;
+}
+
+function showTyping() { document.getElementById('typingIndicator').classList.add('active'); scrollToBottom(); }
+function hideTyping() { document.getElementById('typingIndicator').classList.remove('active'); }
+function scrollToBottom() { const w = document.getElementById('messagesWrapper'); setTimeout(() => { w.scrollTop = w.scrollHeight; }, 100); }
+
+function findAnswer(msg) {
+    const m = msg.toLowerCase().trim();
+
+    const greetings = [
+        'hi','hello','hey','hii','helo','hiii',
+        'નમસ્તે','નમસ્કાર','હાય','હેલો',
+        'kem cho','kem chho','kemo cho','namaste','namaskar',
+        'good morning','good evening','good afternoon','goodmorning'
+    ];
+    if (greetings.some(g => m === g || m.startsWith(g + ' ') || m.endsWith(' ' + g) || m.includes(g))) {
+        return { answer: '🙏 નમસ્તે!\n\nકઈ સેવા જોઈએ?', sugKey: 'greeting' };
+    }
+
+    for (const data of kb) {
+        if (data.kw.some(kw => m.includes(kw.toLowerCase()))) {
+            return { answer: data.ans, sugKey: data.suggestions };
+        }
+    }
+
+    return {
+        answer: '🙏 માફ કરશો, સમજાયું નહીં.\n\nનીચેથી સેવા પસંદ કરો:',
+        sugKey: 'greeting'
+    };
+}
+
+function send() {
+    const input = document.getElementById('userInput');
+    const btn = document.getElementById('sendBtn');
+    const msg = input.value.trim();
+    if (msg) {
+        btn.classList.remove('sending');
+        void btn.offsetWidth;
+        btn.classList.add('sending');
+        setTimeout(() => btn.classList.remove('sending'), 400);
+        addMsg(msg, true);
+        input.value = '';
+        showTyping();
+        const delay = 700 + Math.random() * 700;
+        setTimeout(() => {
+            hideTyping();
+            const res = findAnswer(msg);
+            addMsg(res.answer, false, res.sugKey);
+        }, delay);
+    }
+}
+
+function ask(q) {
+    document.getElementById('userInput').value = q;
+    send();
+}
+
+function formatMsg(txt) {
+    const div = document.createElement('div');
+    div.textContent = txt;
+    let safe = div.innerHTML;
+    safe = safe.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" style="color:#1B2B6B;font-weight:700;text-decoration:underline;display:inline-block;margin-top:4px;">$1</a>');
+    return safe;
+}
+
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+document.getElementById('userInput').addEventListener('keypress', e => { if (e.key === 'Enter') send(); });
+document.addEventListener('gesturestart', e => e.preventDefault());
+
+window.addEventListener('load', () => {
+    loadServices();
+    loadQuickBar();
+    setTimeout(() => {
+        addMsg('🙏 નમસ્તે!\n\nઆ પૈકી કઈ સેવા જોઈએ છે? 😊', false, 'greeting');
+    }, 500);
+});
+</script>
+</body>
+</html>
