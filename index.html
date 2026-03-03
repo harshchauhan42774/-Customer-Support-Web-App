@@ -255,6 +255,92 @@
         }
         /* ─────────────────────────────────────────────────── */
 
+        /* ─── E-STAMP FORM ───────────────────────────────── */
+        .estamp-form-wrap {
+            background: #fff;
+            border: 1.5px solid #D8DCF0;
+            border-radius: 16px;
+            padding: 16px;
+            margin-top: 4px;
+            white-space: normal;
+            min-width: 260px;
+            max-width: 340px;
+            box-shadow: 0 4px 20px rgba(27,43,107,0.1);
+            animation: bubblePop 0.35s cubic-bezier(0.34,1.56,0.64,1) both;
+        }
+        .estamp-form-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: #1B2B6B;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .estamp-field {
+            margin-bottom: 10px;
+        }
+        .estamp-field label {
+            display: block;
+            font-size: 10.5px;
+            font-weight: 700;
+            color: #6B7599;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            margin-bottom: 5px;
+        }
+        .estamp-field input, .estamp-field select {
+            width: 100%;
+            padding: 9px 12px;
+            border: 1.5px solid #D8DCF0;
+            border-radius: 9px;
+            font-family: inherit;
+            font-size: 13px;
+            color: #1B2B6B;
+            background: #F8F9FC;
+            outline: none;
+            transition: all 0.18s;
+        }
+        .estamp-field input:focus, .estamp-field select:focus {
+            border-color: #1B2B6B;
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(27,43,107,0.1);
+        }
+        .estamp-field input::placeholder {
+            color: #9BA3C2;
+        }
+        .estamp-whatsapp-btn {
+            width: 100%;
+            margin-top: 6px;
+            padding: 11px;
+            background: linear-gradient(135deg,#25D366,#128C7E);
+            color: #fff;
+            border: none;
+            border-radius: 11px;
+            font-size: 13px;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s;
+            box-shadow: 0 4px 14px rgba(37,211,102,0.35);
+        }
+        .estamp-whatsapp-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37,211,102,0.5);
+        }
+        .estamp-form-note {
+            font-size: 10px;
+            color: #9BA3C2;
+            text-align: center;
+            margin-top: 8px;
+            line-height: 1.4;
+        }
+        /* ─────────────────────────────────────────────────── */
+
         @media(max-width:1024px){ .sidebar{position:fixed;left:0;top:0;bottom:0;transform:translateX(-100%);} .sidebar.active{transform:translateX(0);} .menu-toggle{display:flex;} }
         @media(max-width:768px){ :root{--sidebar-width:280px;} .chat-header{padding:0 14px;height:60px;} .header-name{font-size:13px;} .messages-wrapper{padding:14px;} .quick-bar{padding:8px 12px 0;} .input-area{padding:10px 12px 12px;} }
         @media(max-width:480px){ .welcome-message h1{font-size:18px;} .ticket-form-wrap{max-width:100%;} }
@@ -364,12 +450,14 @@ const services = [
     { category:'🏦 BOB બેન્ક સેવા', items:[
         {icon:'🏦',name:'BOB ખાતું ખોલાવો',price:'FREE',q:'BOB ખાતું ખોલો'}
     ]},
+    { category:'📜 ઇ-સ્ટેમ્પ સેવા', items:[
+        {icon:'🏛️',name:'ઇ-સ્ટેમ્પ (E-Stamp)',price:'',q:'ઇ-સ્ટેમ્પ'}
+    ]},
     { category:'🎫 ટિકિટ બુકિંગ', items:[
         {icon:'🎫',name:'ટ્રેન / ફ્લાઈટ / બસ ટિકિટ',price:'',q:'ટિકિટ બુકિંગ'}
     ]},
     { category:'🖨️ પ્રિન્ટ & ઝેરોક્ષ', items:[
-        {icon:'🖨️',name:'ઝેરોક્સ / પ્રિન્ટ',price:'',q:'ઝેરોક્સ કેટલા પૈસા'},
-        // {icon:'📋',name:'ઓનલાઈન ફોર્મ',price:'',q:'ઓનલાઈન ફોર્મ'}
+        {icon:'🖨️',name:'ઝેરોક્ષ / પ્રિન્ટ',price:'',q:'ઝેરોક્ષ કેટલા પૈસા'},
     ]},
     { category:'👰 સરકારી યોજના', items:[
         {icon:'👰',name:'કુંવરબાઈનું મામેરું',price:'',q:'કુંવરબાઈનું મામેરું'},
@@ -396,6 +484,7 @@ const quickChips = [
     {icon:'💳',text:'પાન કાર્ડ',q:'નવું પાન કાર્ડ'},
     {icon:'🏥',text:'આયુષ્માન',q:'આયુષ્માન કાર્ડ'},
     {icon:'🏦',text:'BOB ખાતું',q:'BOB ખાતું ખોલો'},
+    {icon:'🏛️',text:'ઇ-સ્ટેમ્પ (E-Stamp)',q:'ઇ-સ્ટેમ્પ'},
     {icon:'🚗',text:'DL',q:'ડ્રાઇવિંગ લાઇસન્સ'},
     {icon:'📜',text:'હયાતી',q:'હયાતી નો દાખલો'},
     {icon:'🏭',text:'ઉદ્યોગ',q:'ઉદ્યોગ આધાર'},
@@ -405,6 +494,7 @@ const quickChips = [
     {icon:'🏫',text:'RTE ફોર્મ',q:'RTE ફોર્મ'},
     {icon:'📮',text:'પોસ્ટ ભરતી',q:'પોસ્ટ ભરતી'},
     {icon:'🚂',text:'રેલ્વે',q:'રેલ્વે ભરતી'},
+    {icon:'🏛️',text:'ઇ-સ્ટેમ્પ',q:'ઇ-સ્ટેમ્પ'},
     {icon:'🎫',text:'ટિકિટ',q:'ટિકિટ બુકિંગ'},
     {icon:'🖨️',text:'ઝેરોક્ષ',q:'ઝેરોક્ષ'},
     {icon:'🛂',text:'પાસપોર્ટ',q:'નવો પાસપોર્ટ'},
@@ -417,6 +507,7 @@ const suggestionButtons = {
         {icon:'🆔',text:'આધાર સેવા',q:'આધાર સેવાઓ',style:''},
         {icon:'💳',text:'PAN / આયુષ્માન',q:'નવું પાન કાર્ડ',style:''},
         {icon:'🏦',text:'BOB ખાતું',q:'BOB ખાતું ખોલો',style:''},
+        {icon:'🏛️',text:'ઇ-સ્ટેમ્પ (E-Stamp)',q:'ઇ-સ્ટેમ્પ',style:''},
         {icon:'🚗',text:'DL / હયાતી',q:'ડ્રાઇવિંગ લાઇસન્સ',style:''},
         {icon:'👰',text:'કુંવરબાઈ મામેરું',q:'કુંવરબાઈનું મામેરું',style:''},
         {icon:'💼',text:'ઇ-શ્રમ કાર્ડ',q:'ઇ-શ્રમ કાર્ડ',style:''},
@@ -424,6 +515,7 @@ const suggestionButtons = {
         {icon:'🏫',text:'RTE ફોર્મ',q:'RTE ફોર્મ',style:''},
         {icon:'📮',text:'પોસ્ટ ભરતી',q:'પોસ્ટ ભરતી',style:''},
         {icon:'🚂',text:'રેલ્વે ભરતી',q:'રેલ્વે ભરતી',style:''},
+        {icon:'🏛️',text:'ઇ-સ્ટેમ્પ',q:'ઇ-સ્ટેમ્પ',style:''},
         {icon:'🎫',text:'ટિકિટ',q:'ટિકિટ બુકિંગ',style:''},
         {icon:'🏭',text:'ઉદ્યોગ / ઇન્સ્યો.',q:'ઉદ્યોગ આધાર',style:''}
     ],
@@ -491,6 +583,12 @@ const suggestionButtons = {
         {icon:'📍',text:'લોકેશન / ફોન',q:'સંપર્ક માહિતી',style:'next-step'},
         {icon:'🔄',text:'અન્ય સેવા',q:'અન્ય સેવા',style:'next-step'}
     ],
+    estamp_done:[
+        {icon:'🆔',text:'આધાર',q:'આધાર સેવાઓ',style:''},
+        {icon:'💳',text:'PAN Card',q:'નવું પાન કાર્ડ',style:''},
+        {icon:'📍',text:'લોકેશન / ફોન',q:'સંપર્ક માહિતી',style:'next-step'},
+        {icon:'🔄',text:'અન્ય સેવા',q:'અન્ય સેવા',style:'next-step'}
+    ],
     ticket_done:[
         {icon:'🆔',text:'આધાર',q:'આધાર સેવાઓ',style:''},
         {icon:'💳',text:'PAN Card',q:'નવું પાન કાર્ડ',style:''},
@@ -498,13 +596,12 @@ const suggestionButtons = {
         {icon:'🔄',text:'અન્ય સેવા',q:'અન્ય સેવા',style:'next-step'}
     ],
     xerox_done:[
-        // {icon:'📋',text:'ઓનલાઈન ફોર્મ',q:'ઓનલાઈન ફોર્મ',style:''},
         {icon:'🆔',text:'આધાર',q:'આધાર સેવાઓ',style:''},
         {icon:'📍',text:'લોકેશન / ફોન',q:'સંપર્ક માહિતી',style:'next-step'},
         {icon:'🔄',text:'અન્ય સેવા',q:'અન્ય સેવા',style:'next-step'}
     ],
     form_done:[
-        {icon:'🖨️',text:'ઝેરોક્સ',q:'ઝેરોક્સ કેટલા પૈસા',style:''},
+        {icon:'🖨️',text:'ઝેરોક્ષ',q:'ઝેરોક્ષ કેટલા પૈસા',style:''},
         {icon:'🆔',text:'આધાર',q:'આધાર સેવાઓ',style:''},
         {icon:'📍',text:'લોકેશન / ફોન',q:'સંપર્ક માહિતી',style:'next-step'},
         {icon:'🔄',text:'અન્ય સેવા',q:'અન્ય સેવા',style:'next-step'}
@@ -540,6 +637,103 @@ const suggestionButtons = {
         {icon:'📞',text:'સંપર્ક',q:'સંપર્ક માહિતી',style:'next-step'}
     ]
 };
+
+// ─── E-Stamp form counter ─────────────────────────────────
+let estampFormCounter = 0;
+
+// ✅ UPDATED: Article options ગુજરાતીમાં
+const stampArticles = [
+    { val: 'Agreement', label: 'કરારનામું (Agreement)' },
+    { val: 'Affidavit', label: 'સોગંદનામું (Affidavit)' },
+    { val: 'Bond', label: 'બોન્ડ (Bond)' },
+    { val: 'Conveyance', label: 'મિલ્કત હસ્તાંતરણ (Conveyance)' },
+    { val: 'Gift Deed', label: 'ભેટ ખત (Gift Deed)' },
+    { val: 'Lease Deed', label: 'ભાડા કરાર (Lease Deed)' },
+    { val: 'Loan Agreement', label: 'લોન કરારનામું (Loan Agreement)' },
+    { val: 'Memorandum of Understanding (MOU)', label: 'સમજૂતી પત્ર (MOU)' },
+    { val: 'Mortgage Deed', label: 'ગીરો ખત (Mortgage Deed)' },
+    { val: 'Partnership Deed', label: 'ભાગીદારી ખત (Partnership Deed)' },
+    { val: 'Power of Attorney', label: 'મુખત્યારનામું (Power of Attorney)' },
+    { val: 'Rent Agreement', label: 'ભાડા કરાર (Rent Agreement)' },
+    { val: 'Sale Deed', label: 'વેચાણ ખત (Sale Deed)' },
+    { val: 'Surety Bond', label: 'જામીન બોન્ડ (Surety Bond)' },
+    { val: 'Trust Deed', label: 'ટ્રસ્ટ ખત (Trust Deed)' },
+    { val: 'Other', label: 'અન્ય (Other)' }
+];
+
+function buildEStampFormHtml() {
+    const id = 'es' + (++estampFormCounter);
+    const articleOptions = stampArticles.map(a => `<option value="${a.val}">${a.label}</option>`).join('');
+    return `<div class="estamp-form-wrap" id="${id}">
+        <div class="estamp-form-title">🏛️ ઇ-સ્ટેમ્પ વિગત</div>
+        <div class="estamp-field">
+            <label>Purchased By (ખરીદનાર)</label>
+            <input type="text" id="${id}_purchasedby" placeholder="નામ દાખલ કરો...">
+        </div>
+        <div class="estamp-field">
+            <label>Description (વર્ણન)</label>
+            <input type="text" id="${id}_description" placeholder="ઉ.દા. Sale of Property...">
+        </div>
+        <div class="estamp-field">
+            <label>First Party (પ્રથમ પક્ષ)</label>
+            <input type="text" id="${id}_firstparty" placeholder="પ્રથમ પક્ષનું નામ...">
+        </div>
+        <div class="estamp-field">
+            <label>Second Party (બીજો પક્ષ)</label>
+            <input type="text" id="${id}_secondparty" placeholder="બીજા પક્ષનું નામ...">
+        </div>
+        <div class="estamp-field">
+            <label>Stamp Duty Paid By (સ્ટેમ્પ ડ્યૂટી ભરનાર)</label>
+            <input type="text" id="${id}_stampduty" placeholder="નામ દાખલ કરો...">
+        </div>
+        <div class="estamp-field">
+            <label>Article (લેખ / પ્રકાર)</label>
+            <select id="${id}_article">
+                <option value="">-- પ્રકાર પસંદ કરો --</option>
+                ${articleOptions}
+            </select>
+        </div>
+        <div class="estamp-field">
+            <label>Amount (સ્ટેમ્પ રકમ ₹)</label>
+            <input type="number" id="${id}_amount" placeholder="ઉ.દા. 500, 1000..." min="1">
+        </div>
+        <div class="estamp-field">
+            <label>Mobile Number (મોબાઈલ નંબર)</label>
+            <input type="tel" id="${id}_mobile" placeholder="10 આંકડાનો નંબર..." maxlength="10">
+        </div>
+        <button class="estamp-whatsapp-btn" onclick="sendEStampWhatsApp('${id}')">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            WhatsApp પર મોકલો
+        </button>
+        <div class="estamp-form-note">📋 ઇ-સ્ટેમ્પ details WhatsApp પર confirm થશે</div>
+    </div>`;
+}
+
+function sendEStampWhatsApp(id) {
+    const purchasedby  = document.getElementById(id + '_purchasedby').value.trim();
+    const description  = document.getElementById(id + '_description').value.trim();
+    const firstparty   = document.getElementById(id + '_firstparty').value.trim();
+    const secondparty  = document.getElementById(id + '_secondparty').value.trim();
+    const stampduty    = document.getElementById(id + '_stampduty').value.trim();
+    const article      = document.getElementById(id + '_article').value;
+    const amount       = document.getElementById(id + '_amount').value.trim();
+    const mobile       = document.getElementById(id + '_mobile').value.trim();
+
+    if (!purchasedby || !description || !firstparty || !secondparty || !stampduty || !article || !amount || !mobile) {
+        alert('કૃપા કરી બધી વિગત ભરો.');
+        return;
+    }
+
+    if (mobile.length !== 10 || !/^\d{10}$/.test(mobile)) {
+        alert('કૃપા કરી 10 આંકડાનો સાચો મોબાઈલ નંબર દાખલ કરો.');
+        return;
+    }
+
+    const msg = `*ઇ-સ્ટેમ્પ વિનંતી 🏛️*\n━━━━━━━━━━━━━━━\nPurchased By: *${purchasedby}*\nDescription: *${description}*\nFirst Party: *${firstparty}*\nSecond Party: *${secondparty}*\nStamp Duty Paid By: *${stampduty}*\nArticle: *${article}*\nAmount: *₹${amount}*\nMobile: *${mobile}*\n━━━━━━━━━━━━━━━\nનમસ્તે, મારે ઉપર મુજબ ઇ-સ્ટેમ્પ જોઈએ છે. કૃપા કરી confirm કરો.`;
+
+    const waUrl = `https://wa.me/91${WHATSAPP}?text=${encodeURIComponent(msg)}`;
+    window.open(waUrl, '_blank');
+}
 
 // ─── Ticket booking form ID counter ──────────────────────
 let ticketFormCounter = 0;
@@ -604,6 +798,12 @@ function sendTicketWhatsApp(formId) {
 
 const kb = [
     {
+        id: 'estamp',
+        kw: ['ઇ-સ્ટેમ્પ','e stamp','estamp','e-stamp','stamp','સ્ટેમ્પ','istamp','stamp paper','estampgujarath'],
+        ans: `__ESTAMP_FORM__`,
+        suggestions: 'estamp_done'
+    },
+    {
         id: 'pan_correction',
         kw: ['સુધ','સુધારો','પાન સુધ','pan sudh','pan correction','pan correct','pan sudhar','pan change','correction','pancard sudh','pan card sudh'],
         ans: `✏️ પાન કાર્ડ સુધારો\n\n✅ જરૂરી દસ્તાવેજ:\n• જૂનું પાન કાર્ડ\n• આધાર કાર્ડ\n• પાસપોટ સાઈજ ફોટો અને સહી (કોર કાગળમાં સહી કરવી. )\n\n• આધાર કાર્ડમાં મોબાઈલ નંબર લિન્ક હોવો જરૂરી છે.\n💰 ફી: ₹200\n📦 ડિલિવરી: 15–20 દિવસ\n\n─────────────────────\n📱 ઘેર બેઠા (Online)\n─────────────────────\n✅ ઘરે બેઠા પણ પાન કાર્ડમાં સુધારો થઈ શકે!\n\nફક્ત WhatsApp પર Documents મોકલો:\n• OTP આપવો જરૂરી છે\n\n📱 [WhatsApp કરો: 9377890001](https://wa.me/919377890001)`,
@@ -636,7 +836,7 @@ const kb = [
     {
         id: 'ayushman',
         kw: ['આયુષ્માન','ayushman','health card','ayushman card','ayushaman','pmjay','ayushman bharat'],
-        ans: `🏥 નવું આયુષ્યમાન કાર્ડ\n\n✅ જરૂરી દસ્તાવેજ:\n• આધાર કાર્ડ\n• રેશન કાર્ડ\n• આવકનો દાખલો\n• માણસને રૂબરૂ આવાનું રહશે.\n• નોંધ: આધાર કાર્ડ સાથે મોબાઈલ નંબર લિન્ક હોય તે સાથે લાવો.\n\n• નોંધ : રેશન કાર્ડમાં અનાજ લેવા જતાં હોય તેવા રેશન કાર્ડ ધારકને આવકના દાખલાં ની જરૂર નથી.\n\n💰 ફી: ₹100\n🏥 ₹5 લાખ સુધી મફત સારવાર!\n\n─────────────────────\n🏥 આયુષ્યમાન કાર્ડ રિન્યૂ માટે\n─────────────────────\n\n✅ જરૂરી દસ્તાવેજ:\n• આધાર કાર્ડ\n• રેશન કાર્ડ\n• આવકનો દાખલો\n• જૂનું આયુષ્યમાન કાર્ડ સાથે લાવવું.\n• માણસને રૂબરૂ આવાનું રહશે.\n• નોંધ: આધાર કાર્ડ સાથે મોબાઈલ નંબર લિન્ક હોય તે સાથે લાવો.\n\n💰 ફી: ₹100\n🏥 ₹5 લાખ સુધી મફત સારવાર!\n\n─────────────────────\n🏥 આયુષ્યમાન G-Category કાર્ડ\n─────────────────────\n\n✅ જરૂરી દસ્તાવેજ:\n• સરકારી લેટર\n• આધાર કાર્ડ\n• માણસને રૂબરૂ આવાનું રહશે.\n• નોંધ: આધાર કાર્ડ સાથે મોબાઈલ નંબર લિન્ક હોય તે સાથે લાવો.\n\n💰 ફી: ₹100\n🏥 ₹10 લાખ સુધી મફત સારવાર!\n\n───────────────────────────────\n🏥 આયુષ્યમાન વય વંદના કાર્ડ (70 + વર્ષના ઉમેદવાર માટે)\n───────────────────────────────\n\n✅ જરૂરી દસ્તાવેજ:\n• આધાર કાર્ડ\n\n• માણસને રૂબરૂ આવાનું રહશે.\n• નોંધ: આધાર કાર્ડ સાથે મોબાઈલ નંબર લિન્ક હોય તે સાથે લાવો.\n\n💰 ફી: ₹100\n🏥 ₹5 લાખ સુધી મફત સારવાર!`,
+        ans: `🏥 નવું આયુષ્યમાન કાર્ડ\n\n✅ જરૂરી દસ્તાવેજ:\n• આધાર કાર્ડ\n• રેશન કાર્ડ\n• આવકનો દાખલો\n• માણસને રૂબરૂ આવાનું રહશે.\n• નોંધ: આધાર કાર્ડ સાથે મોબાઈલ નંબર લિન્ક હોય તે સાથે લાવો.\n\n• નોંધ : રેશન કાર્ડમાં અનાજ લેવા જતાં હોય તેવા રેશન કાર્ડ ધારકને આવકના દાખલાં ની જરૂર નથી.\n\n💰 ફી: ₹100\n🏥 ₹5 લાખ સુધી મફત સારવાર!\n\n─────────────────────\n🏥 આયુષ્યમાન કાર્ડ રિન્યૂ માટે\n─────────────────────\n\n✅ જરૂરી દસ્તાવેજ:\n• આધાર કાર્ડ\n• રેશન કાર્ડ\n• આવકનો દાખલો\n• જૂનું આયુષ્યમાન કાર્ડ સાથે લાવવું.\n• માણસને રૂબરૂ આવાનું રહશે.\n• નોંધ: આધાર કાર્ડ સાથે મોબાઈલ નંબર લિન્ક હોય તે સાથે લાવો.\n\n💰 ફી: ₹100\n🏥 ₹5 લાખ સુધી મફત સારવાર!`,
         suggestions: 'ayushman_done'
     },
     {
@@ -672,7 +872,7 @@ const kb = [
     {
         id: 'passport',
         kw: ['પાસ','passport','new passport','passport apply','passport banav'],
-        ans: `🛂 નવો પાસપોર્ટ\n\n✅ જરૂરી દસ્તાવેજ:\n• આધાર કાર્ડ\n• પાન કાર્ડ\n• જન્મનો દાખલો અથવા LC\n• છેલ્લી માર્કશીટ\n\n💰 ફી: ₹2000\n\n─────────────────────\n📱 ઘેર બેઠા (Online)\n─────────────────────\n✅ ઘરે બેઠા પણ પાસપોર્ટ થઈ શકે!\n\nફક્ત WhatsApp પર Documents મોકલો:\n\n📱 [WhatsApp કરો: 9377890001](https://wa.me/919377890001)\n\n─────────────────────\n🏥 પાસપોર્ટ રિન્યૂ માટે\n─────────────────────\n\n✅ જરૂરી દસ્તાવેજ:\n• પાસપોર્ટ\n• આધાર કાર્ડ\n• પાન કાર્ડ\n• જન્મનો દાખલો અથવા LC\n• છેલ્લી માર્કશીટ\n\n💰 ફી: ₹2000\n\n─────────────────────\n📱 ઘેર બેઠા (Online)\n─────────────────────\n✅ ઘરે બેઠા પણ પાસપોર્ટ રિન્યૂ થઈ શકે!\n\nફક્ત WhatsApp પર Documents મોકલો:\n\n📱 [WhatsApp કરો: 9377890001](https://wa.me/919377890001)`,
+        ans: `🛂 નવો પાસપોર્ટ\n\n✅ જરૂરી દસ્તાવેજ:\n• આધાર કાર્ડ\n• પાન કાર્ડ\n• જન્મનો દાખલો અથવા LC\n• છેલ્લી માર્કશીટ\n\n💰 ફી: ₹2000\n\n─────────────────────\n📱 ઘેર બેઠા (Online)\n─────────────────────\n✅ ઘરે બેઠા પણ પાસપોર્ટ થઈ શકે!\n\nફક્ત WhatsApp પર Documents મોકલો:\n\n📱 [WhatsApp કરો: 9377890001](https://wa.me/919377890001)`,
         suggestions: 'passport_done'
     },
     {
@@ -681,12 +881,6 @@ const kb = [
         ans: `🏫 RTE ફોર્મ (Right to Education)\n\n✅ જરૂરી દસ્તાવેજ:\n• ૧. આધાર કાર્ડ (પિતા, માતા, બાળક)\n• ૨. રેશન કાર્ડ\n• ૩. આવકનો દાખલો\n• ૪. વાલીનું જાતિનું પ્રમાણપત્ર\n• ૫. બાળક કે વાલીના બેંક ખાતાની પાસબૂક\n• ૬. BPL દાખલો (BPL કાર્ડ ધારક હોય તો)\n• ૭. ફોટો અને સહી\n\n💰 ફી: સેવા અનુસાર\n\n─────────────────────\n📱 ઘેર બેઠા (Online)\n─────────────────────\n✅ ઘરે બેઠા પણ RTE ફોર્મ ભરી શકાય!\n\nWhatsApp પર Documents મોકલો:\n• OTP આપવો જરૂરી છે\n\n📱 [WhatsApp કરો: 9377890001](https://wa.me/919377890001)`,
         suggestions: 'yojana_done'
     },
-    // {
-    //     id: 'form',
-    //     kw: ['ઓનલાઈન ફ','online form','government form','sarkari form','naukri form','job form','online farma'],
-    //     ans: `📋 ઓનલાઈન ફોર્મ\n\n✅ ઉપલબ્ધ:\n🏛 સરકારી નોકરી ફોર્મ\n🎓 College Admission\n📚 Scholarship\n🏦 Bank Account Opening\n🏠 Government Schemes\n\n💰 ફી: સેવા અનુસાર\n📄 Document copy included!`,
-    //     suggestions: 'form_done'
-    // },
     {
         id: 'timing',
         kw: ['ટાઈ','timing','shop timing','shop time','shoptime','shop kholva','dukan time','shop band','closing time','opening time','kholva samay','band samay'],
@@ -702,19 +896,19 @@ const kb = [
     {
         id: 'fees',
         kw: ['ફી','fee','price','charge','cost','amount','paise','₹','charges','fees','rate','rupe','kitla','kharach','seva ni fee'],
-        ans: `💰 સંપૂર્ણ ફી યાદી\n\n🆔 આધાર:\n📱 મોબાઈલ: ₹100\n🏠 એડ્રેસ: ₹150\n\n💳 PAN Card: ₹200\n🏥 Ayushman: ₹100\n🛂 Passport: ₹2000\n🚗 DL: Govt fee + Service\n📜 હયાતી: ₹50\n🏭 ઉદ્યોગ: Govt + Service\n🏦 BOB Account: FREE\n\n🖨️ ઝેરોક્સ:\n📄 સીંગલ સાઈડ: ₹2\n📄 બન્ને સાઈડ: ₹4\n\n📱 મોબાઈલ પ્રિન્ટ:\n🖨️ સીંગલ સાઈડ: ₹5\n🖨️ બન્ને સાઈડ: ₹10\n\n🎨 કલર પ્રિન્ટ:\n📃 સાદા પેપર: ₹15\n📸 ફોટો પેપર: ₹30\n\n📎 A/4 લેમિનેશન: ₹20`,
+        ans: `💰 સંપૂર્ણ ફી યાદી\n\n🆔 આધાર:\n📱 મોબાઈલ: ₹100\n🏠 એડ્રેસ: ₹150\n\n💳 PAN Card: ₹200\n🏥 Ayushman: ₹100\n🛂 Passport: ₹2000\n🚗 DL: Govt fee + Service\n📜 હયાતી: ₹50\n🏭 ઉદ્યોગ: Govt + Service\n🏦 BOB Account: FREE\n\n🖨️ ઝેરોક્ષ:\n📄 સીંગલ સાઈડ: ₹2\n📄 બન્ને સાઈડ: ₹4\n\n📱 મોબાઈલ પ્રિન્ટ:\n🖨️ સીંગલ સાઈડ: ₹5\n🖨️ બન્ને સાઈડ: ₹10\n\n🎨 કલર પ્રિન્ટ:\n📃 સાદા પેપર: ₹15\n📸 ફોટો પેપર: ₹30\n\n📎 A/4 લેમિનેશન: ₹20`,
         suggestions: 'info_done'
     },
     {
         id: 'xerox',
         kw: ['ઝેરો','xerox','zerox','photocopy','photo copy','lamin','lamination','binding','spiral','scan','copy kadh'],
-        ans: `🖨️ ઝેરોક્ષ & પ્રિન્ટ ભાવ યાદી\n\n📋 ઝેરોક્સ:\n📄 સીંગલ સાઈડ (એક કોપી): ₹2\n📄 બન્ને સાઈડ (એક કોપી): ₹4\n\n📱 મોબાઈલ પ્રિન્ટ:\n🖨️ સીંગલ સાઈડ: ₹5\n🖨️ બન્ને સાઈડ: ₹10\n\n🎨 કલર પ્રિન્ટ:\n📃 સાદા પેપરમાં: ₹15\n📸 ફોટો પેપરમાં: ₹30\n\n📎 A/4 લેમિનેશન: ₹20\n\n⚡ Bulk order discount available!`,
+        ans: `🖨️ ઝેરોક્ષ & પ્રિન્ટ ભાવ યાદી\n\n📋 ઝેરોક્ષ:\n📄 સીંગલ સાઈડ (એક કોપી): ₹2\n📄 બન્ને સાઈડ (એક કોપી): ₹4\n\n📱 મોબાઈલ પ્રિન્ટ:\n🖨️ સીંગલ સાઈડ: ₹5\n🖨️ બન્ને સાઈડ: ₹10\n\n🎨 કલર પ્રિન્ટ:\n📃 સાદા પેપરમાં: ₹15\n📸 ફોટો પેપરમાં: ₹30\n\n📎 A/4 લેમિનેશન: ₹20\n\n⚡ Bulk order discount available!`,
         suggestions: 'xerox_done'
     },
     {
         id: 'print',
         kw: ['print','પ્રિન્ટ','colour print','color print','b&w print','black white print','mobile print','mobile thi print'],
-        ans: `🖨️ ઝેરોક્ષ & પ્રિન્ટ ભાવ યાદી\n\n📋 ઝેરોક્સ:\n📄 સીંગલ સાઈડ (એક કોપી): ₹2\n📄 બન્ને સાઈડ (એક કોપી): ₹4\n\n📱 મોબાઈલ પ્રિન્ટ:\n🖨️ સીંગલ સાઈડ: ₹5\n🖨️ બન્ને સાઈડ: ₹10\n\n🎨 કલર પ્રિન્ટ:\n📃 સાદા પેપરમાં: ₹15\n📸 ફોટો પેપરમાં: ₹30\n\n📎 A/4 લેમિનેશન: ₹20\n\n⚡ Bulk order discount available!`,
+        ans: `🖨️ ઝેરોક્ષ & પ્રિન્ટ ભાવ યાદી\n\n📋 ઝેરોક્ષ:\n📄 સીંગલ સાઈડ (એક કોપી): ₹2\n📄 બન્ને સાઈડ (એક કોપી): ₹4\n\n📱 મોબાઈલ પ્રિન્ટ:\n🖨️ સીંગલ સાઈડ: ₹5\n🖨️ બન્ને સાઈડ: ₹10\n\n🎨 કલર પ્રિન્ટ:\n📃 સાદા પેપરમાં: ₹15\n📸 ફોટો પેપરમાં: ₹30\n\n📎 A/4 લેમિનેશન: ₹20\n\n⚡ Bulk order discount available!`,
         suggestions: 'xerox_done'
     },
     {
@@ -840,6 +1034,8 @@ function addMsg(txt, isUser = false, sugKey = '') {
     let bubbleContent;
     if (!isUser && txt === '__TICKET_FORM__') {
         bubbleContent = buildTicketFormHtml();
+    } else if (!isUser && txt === '__ESTAMP_FORM__') {
+        bubbleContent = buildEStampFormHtml();
     } else {
         bubbleContent = isUser ? escapeHtml(txt) : formatMsg(txt);
     }
