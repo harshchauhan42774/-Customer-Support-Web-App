@@ -641,7 +641,7 @@ const suggestionButtons = {
 // ─── E-Stamp form counter ─────────────────────────────────
 let estampFormCounter = 0;
 
-// ✅ UPDATED: Article options ગુજરાતીમાં
+// ✅ Article options ગુજરાતીમાં
 const stampArticles = [
     { val: 'Agreement', label: 'કરારનામું (Agreement)' },
     { val: 'Affidavit', label: 'સોગંદનામું (Affidavit)' },
@@ -667,24 +667,16 @@ function buildEStampFormHtml() {
     return `<div class="estamp-form-wrap" id="${id}">
         <div class="estamp-form-title">🏛️ ઇ-સ્ટેમ્પ વિગત</div>
         <div class="estamp-field">
-            <label>Purchased By (ખરીદનાર)</label>
-            <input type="text" id="${id}_purchasedby" placeholder="નામ દાખલ કરો...">
+            <label>First Party (પ્રથમ પક્ષ)</label>
+            <input type="text" id="${id}_firstparty" placeholder="પ્રથમ પક્ષનું નામ...">
         </div>
         <div class="estamp-field">
             <label>Description (વર્ણન)</label>
             <input type="text" id="${id}_description" placeholder="ઉ.દા. Sale of Property...">
         </div>
         <div class="estamp-field">
-            <label>First Party (પ્રથમ પક્ષ)</label>
-            <input type="text" id="${id}_firstparty" placeholder="પ્રથમ પક્ષનું નામ...">
-        </div>
-        <div class="estamp-field">
             <label>Second Party (બીજો પક્ષ)</label>
             <input type="text" id="${id}_secondparty" placeholder="બીજા પક્ષનું નામ...">
-        </div>
-        <div class="estamp-field">
-            <label>Stamp Duty Paid By (સ્ટેમ્પ ડ્યૂટી ભરનાર)</label>
-            <input type="text" id="${id}_stampduty" placeholder="નામ દાખલ કરો...">
         </div>
         <div class="estamp-field">
             <label>Article (લેખ / પ્રકાર)</label>
@@ -710,16 +702,14 @@ function buildEStampFormHtml() {
 }
 
 function sendEStampWhatsApp(id) {
-    const purchasedby  = document.getElementById(id + '_purchasedby').value.trim();
-    const description  = document.getElementById(id + '_description').value.trim();
     const firstparty   = document.getElementById(id + '_firstparty').value.trim();
+    const description  = document.getElementById(id + '_description').value.trim();
     const secondparty  = document.getElementById(id + '_secondparty').value.trim();
-    const stampduty    = document.getElementById(id + '_stampduty').value.trim();
     const article      = document.getElementById(id + '_article').value;
     const amount       = document.getElementById(id + '_amount').value.trim();
     const mobile       = document.getElementById(id + '_mobile').value.trim();
 
-    if (!purchasedby || !description || !firstparty || !secondparty || !stampduty || !article || !amount || !mobile) {
+    if (!firstparty || !description || !secondparty || !article || !amount || !mobile) {
         alert('કૃપા કરી બધી વિગત ભરો.');
         return;
     }
@@ -729,7 +719,7 @@ function sendEStampWhatsApp(id) {
         return;
     }
 
-    const msg = `*ઇ-સ્ટેમ્પ વિનંતી 🏛️*\n━━━━━━━━━━━━━━━\nPurchased By: *${purchasedby}*\nDescription: *${description}*\nFirst Party: *${firstparty}*\nSecond Party: *${secondparty}*\nStamp Duty Paid By: *${stampduty}*\nArticle: *${article}*\nAmount: *₹${amount}*\nMobile: *${mobile}*\n━━━━━━━━━━━━━━━\nનમસ્તે, મારે ઉપર મુજબ ઇ-સ્ટેમ્પ જોઈએ છે. કૃપા કરી confirm કરો.`;
+    const msg = `*ઇ-સ્ટેમ્પ વિનંતી 🏛️*\n━━━━━━━━━━━━━━━\nFirst Party: *${firstparty}*\nDescription: *${description}*\nSecond Party: *${secondparty}*\nArticle: *${article}*\nAmount: *₹${amount}*\nMobile: *${mobile}*\n━━━━━━━━━━━━━━━\nનમસ્તે, મારે ઉપર મુજબ ઇ-સ્ટેમ્પ જોઈએ છે. કૃપા કરી confirm કરો.`;
 
     const waUrl = `https://wa.me/91${WHATSAPP}?text=${encodeURIComponent(msg)}`;
     window.open(waUrl, '_blank');
